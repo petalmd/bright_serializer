@@ -19,11 +19,19 @@ module LightSerializer
     end
 
     def to_hash
+      if @object.respond_to?(:each)
+        @object.map { |o| serialize o }
+      else
+        serialize(@object)
+      end
+    end
+
+    def serialize(object)
       self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
         next if @fields.any? && !@fields.include?(attribute.key)
-        next unless attribute.condition?(@object, @params)
+        next unless attribute.condition?(object, @params)
 
-        result[self.class.run_transform_key(attribute.key)] = attribute.serialize(@object, @params)
+        result[self.class.run_transform_key(attribute.key)] = attribute.serialize(object, @params)
       end
     end
 

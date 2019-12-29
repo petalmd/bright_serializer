@@ -28,7 +28,7 @@ RSpec.describe LightSerializer::Serializer do
       }
     end
 
-    it 'serialize without name' do
+    it 'serialize with camel_lower key' do
       expect(instance.to_hash).to eq(result)
     end
   end
@@ -56,7 +56,7 @@ RSpec.describe LightSerializer::Serializer do
       }
     end
 
-    it 'serialize without name' do
+    it 'serialize with camel key' do
       expect(instance.to_hash).to eq(result)
     end
   end
@@ -84,7 +84,7 @@ RSpec.describe LightSerializer::Serializer do
       }
     end
 
-    it 'serialize without name' do
+    it 'serialize with dash key' do
       expect(instance.to_hash).to eq(result)
     end
   end
@@ -112,7 +112,7 @@ RSpec.describe LightSerializer::Serializer do
       }
     end
 
-    it 'serialize without name' do
+    it 'serialize with underscore key' do
       expect(instance.to_hash).to eq(result)
     end
   end
