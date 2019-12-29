@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/Bhacaz/light_serializer/workflows/Build/badge.svg)](https://github.com/Bhacaz/DriveMyDoc/actions)
+[![Actions Status](https://github.com/Bhacaz/light_serializer/workflows/Build/badge.svg)](https://github.com/Bhacaz/light_serializer/actions)
 
 # LightSerializer
 
