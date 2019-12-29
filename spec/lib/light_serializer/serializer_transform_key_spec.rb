@@ -1,20 +1,24 @@
+# frozen_string_literal: true
+
 require_relative '../../share/user'
 
 RSpec.describe LightSerializer::Serializer do
   let(:user) { User.new }
 
   describe 'camel_lower' do
-    class UserCamelLowerSerializer
-      include LightSerializer::Serializer
+    let(:serializer_class) do
+      Class.new do
+        include LightSerializer::Serializer
 
-      set_key_transform :camel_lower
-      attributes :first_name, :last_name
-      attribute :name do |object|
-        "#{object.first_name} #{object.last_name}"
+        set_key_transform :camel_lower
+        attributes :first_name, :last_name
+        attribute :name do |object|
+          "#{object.first_name} #{object.last_name}"
+        end
       end
     end
 
-    let(:instance) { UserCamelLowerSerializer.new(user) }
+    let(:instance) { serializer_class.new(user) }
 
     let(:result) do
       {
@@ -30,17 +34,19 @@ RSpec.describe LightSerializer::Serializer do
   end
 
   describe 'camel' do
-    class UserCamelSerializer
-      include LightSerializer::Serializer
+    let(:serializer_class) do
+      Class.new do
+        include LightSerializer::Serializer
 
-      set_key_transform :camel
-      attributes :first_name, :last_name
-      attribute :name do |object|
-        "#{object.first_name} #{object.last_name}"
+        set_key_transform :camel
+        attributes :first_name, :last_name
+        attribute :name do |object|
+          "#{object.first_name} #{object.last_name}"
+        end
       end
     end
 
-    let(:instance) { UserCamelSerializer.new(user) }
+    let(:instance) { serializer_class.new(user) }
 
     let(:result) do
       {
@@ -56,17 +62,19 @@ RSpec.describe LightSerializer::Serializer do
   end
 
   describe 'dash' do
-    class UserCamelSerializer
-      include LightSerializer::Serializer
+    let(:serializer_class) do
+      Class.new do
+        include LightSerializer::Serializer
 
-      set_key_transform :camel
-      attributes :first_name, :last_name
-      attribute :name do |object|
-        "#{object.first_name} #{object.last_name}"
+        set_key_transform :camel
+        attributes :first_name, :last_name
+        attribute :name do |object|
+          "#{object.first_name} #{object.last_name}"
+        end
       end
     end
 
-    let(:instance) { UserCamelSerializer.new(user) }
+    let(:instance) { serializer_class.new(user) }
 
     let(:result) do
       {
@@ -82,17 +90,19 @@ RSpec.describe LightSerializer::Serializer do
   end
 
   describe 'underscore' do
-    class UserUnderscoreSerializer
-      include LightSerializer::Serializer
+    let(:serializer_class) do
+      Class.new do
+        include LightSerializer::Serializer
 
-      set_key_transform :underscore
-      attributes :first_name, :last_name
-      attribute :name do |object|
-        "#{object.first_name} #{object.last_name}"
+        set_key_transform :underscore
+        attributes :first_name, :last_name
+        attribute :name do |object|
+          "#{object.first_name} #{object.last_name}"
+        end
       end
     end
 
-    let(:instance) { UserUnderscoreSerializer.new(user) }
+    let(:instance) { serializer_class.new(user) }
 
     let(:result) do
       {

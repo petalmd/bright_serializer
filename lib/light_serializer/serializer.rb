@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'oj'
 require 'set'
 require_relative 'attribute'
@@ -27,7 +29,7 @@ module LightSerializer
 
     alias serialize_hash to_hash
 
-    def to_json
+    def to_json(*_args)
       Oj.dump(to_hash)
     end
 
@@ -45,12 +47,12 @@ module LightSerializer
 
       alias attribute attributes
 
-      def set_key_transform(transform_name)
+      def set_key_transform(transform_name) # rubocop:disable Naming/AccessorMethodName
         @transform_method = transform_name
       end
 
       def run_transform_key(input)
-        if self.transform_method
+        if transform_method
           Inflector.send(@transform_method, input.to_s).to_sym
         else
           input.to_sym

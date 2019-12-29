@@ -1,17 +1,21 @@
+# frozen_string_literal: true
+
 require_relative '../../share/user'
 
 RSpec.describe LightSerializer::Serializer do
   describe 'condition' do
-    class UserSerializer
-      include LightSerializer::Serializer
-      attributes :first_name, :last_name
-      attribute :name do |object|
-        "#{object.first_name} #{object.last_name}"
+    let(:serializer_class) do
+      Class.new do
+        include LightSerializer::Serializer
+        attributes :first_name, :last_name
+        attribute :name do |object|
+          "#{object.first_name} #{object.last_name}"
+        end
       end
     end
 
     let(:user) { User.new }
-    let(:instance) { UserSerializer.new(user, fields: %i(first_name name)) }
+    let(:instance) { serializer_class.new(user, fields: %i[first_name name]) }
 
     let(:result) do
       {

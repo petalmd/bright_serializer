@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 class Inflector
   class << self
@@ -12,13 +13,13 @@ class Inflector
     end
 
     def underscore(camel_cased_word)
-      camel_cased_word.gsub!(/(.)([A-Z])/,'\1_\2')
+      camel_cased_word.gsub!(/(.)([A-Z])/, '\1_\2')
       camel_cased_word.downcase!
       camel_cased_word
     end
 
     def dash(underscored_word)
-      underscored_word.gsub!("_", "-")
+      underscored_word.tr!('_', '-')
     end
   end
 end

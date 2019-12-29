@@ -1,20 +1,25 @@
+# frozen_string_literal: true
+
 require_relative '../../share/user'
 
 RSpec.describe LightSerializer::Serializer do
   let(:user) { User.new }
 
   describe 'params' do
-    class UserWithParamsSerializer
-      include LightSerializer::Serializer
-      attributes :first_name, :last_name
-      attribute :name do |object|
-        "#{object.first_name} #{object.last_name}"
-      end
-      attribute :params do |_object, params|
-        params
+    let(:serializer_class) do
+      Class.new do
+        include LightSerializer::Serializer
+        attributes :first_name, :last_name
+        attribute :name do |object|
+          "#{object.first_name} #{object.last_name}"
+        end
+        attribute :params do |_object, params|
+          params
+        end
       end
     end
-    let(:instance) { UserWithParamsSerializer.new(user, params: param) }
+
+    let(:instance) { serializer_class.new(user, params: param) }
 
     let(:param) { Faker::Lorem.word }
     let(:result) do

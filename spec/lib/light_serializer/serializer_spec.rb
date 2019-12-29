@@ -3,16 +3,18 @@
 require_relative '../../share/user'
 
 RSpec.describe LightSerializer::Serializer do
-  class UserSerializer
-		include LightSerializer::Serializer
-		attributes :first_name, :last_name
-		attribute :name do |object|
-			"#{object.first_name} #{object.last_name}"
-		end
-	end
+  let(:serializer_class) do
+    Class.new do
+      include LightSerializer::Serializer
+      attributes :first_name, :last_name
+      attribute :name do |object|
+        "#{object.first_name} #{object.last_name}"
+      end
+    end
+  end
 
   let(:user) { User.new }
-  let(:instance) { UserSerializer.new(user) }
+  let(:instance) { serializer_class.new(user) }
 
   let(:result) do
     {
@@ -23,12 +25,12 @@ RSpec.describe LightSerializer::Serializer do
   end
 
   describe 'serialize' do
-		it 'serialize to hash' do
-			expect(instance.to_hash).to eq(result)
-		end
+    it 'serialize to hash' do
+      expect(instance.to_hash).to eq(result)
+    end
 
-		it 'serialize to json' do
-			expect(instance.to_json).to eq(Oj.dump(result))
-		end
+    it 'serialize to json' do
+      expect(instance.to_json).to eq(Oj.dump(result))
+    end
   end
 end
