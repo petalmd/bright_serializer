@@ -1,5 +1,7 @@
-require_relative 'attribute'
 require 'oj'
+require 'set'
+require_relative 'attribute'
+require_relative 'inflector'
 
 module LightSerializer
   module Serializer
@@ -10,21 +12,16 @@ module LightSerializer
     def initialize(object, **options)
       @object = object
       @params = options[:params]
-      @fields = options[:fields]
+      @fields = Set.new(options[:fields])
       @options = options
     end
 
     def to_hash
       self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
-        p attribute.key
+        next if @fields.any? && !@fields.include?(attribute.key)
         next unless attribute.condition?(@object, @params)
 
-        result[attribute.key] =
-          if attribute.block
-            @object.instance_exec(@object, @params, &attribute.block)
-          else
-            @object.send(attribute.key)
-          end
+        result[self.class.run_transform_key(attribute.key)] = attribute.serialize(@object, @params)
       end
     end
 
@@ -37,7 +34,7 @@ module LightSerializer
     alias serialize_json to_json
 
     module ClassMethods
-      attr_reader :attributes_to_serialize
+      attr_reader :attributes_to_serialize, :transform_method
 
       def attributes(*attributes, **options, &block)
         @attributes_to_serialize ||= []
@@ -47,6 +44,18 @@ module LightSerializer
       end
 
       alias attribute attributes
+
+      def set_key_transform(transform_name)
+        @transform_method = transform_name
+      end
+
+      def run_transform_key(input)
+        if self.transform_method
+          Inflector.send(@transform_method, input.to_s).to_sym
+        else
+          input.to_sym
+        end
+      end
     end
   end
 end
