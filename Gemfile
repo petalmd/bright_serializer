@@ -10,7 +10,10 @@ gemspec
 gem 'oj', require: false
 
 group :test do
+  gem 'active_model_serializers'
+  gem 'benchmark-ips'
   gem 'faker'
+  gem 'fast_jsonapi'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rspec'
