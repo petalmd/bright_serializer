@@ -7,6 +7,8 @@ require_relative 'inflector'
 
 module BrightSerializer
   module Serializer
+    SUPPORTED_TRANSFORMATION = %i[camel camel_lower dash underscore].freeze
+
     def self.included(base)
       base.extend ClassMethods
     end
@@ -38,7 +40,7 @@ module BrightSerializer
     alias serialize_hash to_hash
 
     def to_json(*_args)
-      Oj.dump(to_hash)
+      ::Oj.dump(to_hash, mode: :compat, time_format: :ruby, use_to_json: true)
     end
 
     alias serialize_json to_json
@@ -56,6 +58,10 @@ module BrightSerializer
       alias attribute attributes
 
       def set_key_transform(transform_name) # rubocop:disable Naming/AccessorMethodName
+        unless SUPPORTED_TRANSFORMATION.include?(transform_name)
+          raise ArgumentError "Invalid transformation: #{SUPPORTED_TRANSFORMATION}"
+        end
+
         @transform_method = transform_name
       end
 

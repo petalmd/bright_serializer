@@ -30,7 +30,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'serialize to json' do
-      expect(instance.to_json).to eq(Oj.dump(result))
+      expect(instance.to_json).to eq(result.to_json)
     end
   end
 
