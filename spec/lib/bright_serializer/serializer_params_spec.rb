@@ -13,8 +13,8 @@ RSpec.describe BrightSerializer::Serializer do
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
         end
-        attribute :params do |_object, params|
-          params
+        attribute :params do |object, params|
+          "#{object.first_name} #{object.last_name} #{params}"
         end
       end
     end
@@ -27,7 +27,7 @@ RSpec.describe BrightSerializer::Serializer do
         first_name: user.first_name,
         last_name: user.last_name,
         name: "#{user.first_name} #{user.last_name}",
-        params: param
+        params: "#{user.first_name} #{user.last_name} #{param}"
       }
     end
 
