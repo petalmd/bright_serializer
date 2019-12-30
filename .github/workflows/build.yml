@@ -13,11 +13,12 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - name: Specs
+    - name: Bundle install
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
-        bundle exec rake
+    - name: Specs
+      run: bundle exec rake
     - name: Rubocop
       run: bundle exec rubocop
 
