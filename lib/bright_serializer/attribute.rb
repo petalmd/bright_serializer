@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module LightSerializer
+module BrightSerializer
   class Attribute
     attr_reader :key, :block, :condition
 

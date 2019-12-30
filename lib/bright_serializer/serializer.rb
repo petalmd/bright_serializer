@@ -5,7 +5,7 @@ require 'set'
 require_relative 'attribute'
 require_relative 'inflector'
 
-module LightSerializer
+module BrightSerializer
   module Serializer
     def self.included(base)
       base.extend ClassMethods

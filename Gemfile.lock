@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    light_serializer (0.1.0)
+    bright_serializer (0.1.0)
       oj (~> 3)
 
 GEM
@@ -54,7 +54,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 2)
   faker
-  light_serializer!
+  bright_serializer!
   oj
   rake (~> 10.0)
   rspec (~> 3.0)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'light_serializer'
+require 'bright_serializer'
 require 'faker'
 
 RSpec.configure do |config|

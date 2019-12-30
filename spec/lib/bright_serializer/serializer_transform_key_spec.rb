@@ -2,13 +2,13 @@
 
 require_relative '../../share/user'
 
-RSpec.describe LightSerializer::Serializer do
+RSpec.describe BrightSerializer::Serializer do
   let(:user) { User.new }
 
   describe 'camel_lower' do
     let(:serializer_class) do
       Class.new do
-        include LightSerializer::Serializer
+        include BrightSerializer::Serializer
 
         set_key_transform :camel_lower
         attributes :first_name, :last_name
@@ -36,7 +36,7 @@ RSpec.describe LightSerializer::Serializer do
   describe 'camel' do
     let(:serializer_class) do
       Class.new do
-        include LightSerializer::Serializer
+        include BrightSerializer::Serializer
 
         set_key_transform :camel
         attributes :first_name, :last_name
@@ -64,7 +64,7 @@ RSpec.describe LightSerializer::Serializer do
   describe 'dash' do
     let(:serializer_class) do
       Class.new do
-        include LightSerializer::Serializer
+        include BrightSerializer::Serializer
 
         set_key_transform :camel
         attributes :first_name, :last_name
@@ -92,7 +92,7 @@ RSpec.describe LightSerializer::Serializer do
   describe 'underscore' do
     let(:serializer_class) do
       Class.new do
-        include LightSerializer::Serializer
+        include BrightSerializer::Serializer
 
         set_key_transform :underscore
         attributes :first_name, :last_name

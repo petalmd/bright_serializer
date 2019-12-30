@@ -2,13 +2,13 @@
 
 require_relative '../../share/user'
 
-RSpec.describe LightSerializer::Serializer do
+RSpec.describe BrightSerializer::Serializer do
   let(:user) { User.new }
 
   describe 'params' do
     let(:serializer_class) do
       Class.new do
-        include LightSerializer::Serializer
+        include BrightSerializer::Serializer
         attributes :first_name, :last_name
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
