@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     light_serializer (0.1.0)
+      oj (~> 3)
 
 GEM
   remote: https://rubygems.org/
