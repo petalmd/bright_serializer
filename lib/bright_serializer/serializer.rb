@@ -8,16 +8,17 @@ require_relative 'inflector'
 module BrightSerializer
   module Serializer
     SUPPORTED_TRANSFORMATION = %i[camel camel_lower dash underscore].freeze
+    DEFAULT_OJ_OPTIONS = { mode: :compat, time_format: :ruby, use_to_json: true }.freeze
 
     def self.included(base)
       base.extend ClassMethods
+      base.instance_variable_set(:@attributes_to_serialize, [])
     end
 
     def initialize(object, **options)
       @object = object
-      @params = options[:params]
-      @fields = Set.new(options[:fields])
-      @options = options
+      @params = options.delete(:params)
+      @fields = Set.new(options.delete(:fields))
     end
 
     def to_hash
@@ -33,14 +34,14 @@ module BrightSerializer
         next if @fields.any? && !@fields.include?(attribute.key)
         next unless attribute.condition?(object, @params)
 
-        result[self.class.run_transform_key(attribute.key)] = attribute.serialize(object, @params)
+        result[attribute.transformed_key] = attribute.serialize(object, @params)
       end
     end
 
     alias serialize_hash to_hash
 
     def to_json(*_args)
-      ::Oj.dump(to_hash, mode: :compat, time_format: :ruby, use_to_json: true)
+      ::Oj.dump(to_hash, DEFAULT_OJ_OPTIONS)
     end
 
     alias serialize_json to_json
@@ -49,9 +50,10 @@ module BrightSerializer
       attr_reader :attributes_to_serialize, :transform_method
 
       def attributes(*attributes, **options, &block)
-        @attributes_to_serialize ||= []
         attributes.each do |key|
-          @attributes_to_serialize << Attribute.new(key, options[:if], &block)
+          attribute = Attribute.new(key, options[:if], &block)
+          attribute.transformed_key = run_transform_key(key)
+          @attributes_to_serialize << attribute
         end
       end
 

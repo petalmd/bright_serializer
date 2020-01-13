@@ -3,6 +3,7 @@
 module BrightSerializer
   class Attribute
     attr_reader :key, :block, :condition
+    attr_accessor :transformed_key
 
     def initialize(key, condition, &block)
       @key = key
