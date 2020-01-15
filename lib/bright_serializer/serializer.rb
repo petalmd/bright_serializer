@@ -22,7 +22,7 @@ module BrightSerializer
     end
 
     def to_hash
-      if @object.respond_to?(:each)
+      if @object.respond_to?(:size) && !@object.respond_to?(:each_pair)
         @object.map { |o| serialize o }
       else
         serialize(@object)
