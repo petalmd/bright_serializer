@@ -53,4 +53,33 @@ RSpec.describe BrightSerializer::Serializer do
       end
     end
   end
+
+  context 'when embedded serializer' do
+    let(:serializer_class) do
+      small_serializer = Class.new do
+        include BrightSerializer::Serializer
+        attributes :names do |object|
+          [object.first_name, object.last_name]
+        end
+      end
+
+      Class.new do
+        include BrightSerializer::Serializer
+        attributes :first_name, :last_name
+        attribute :name do |object|
+          small_serializer.new(object)
+        end
+      end
+    end
+
+    let(:result) do
+      {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        name: { names: [user.first_name, user.last_name] }
+      }
+    end
+
+    it { expect(instance.to_hash).to eq(result) }
+  end
 end
