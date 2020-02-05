@@ -21,14 +21,6 @@ module BrightSerializer
       @fields = Set.new(options.delete(:fields))
     end
 
-    def to_hash
-      if @object.respond_to?(:size) && !@object.respond_to?(:each_pair)
-        @object.map { |o| serialize o }
-      else
-        serialize(@object)
-      end
-    end
-
     def serialize(object)
       self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
         next if @fields.any? && !@fields.include?(attribute.key)
@@ -38,13 +30,21 @@ module BrightSerializer
       end
     end
 
-    alias serialize_hash to_hash
+    def serializable_hash
+      if @object.respond_to?(:size) && !@object.respond_to?(:each_pair)
+        @object.map { |o| serialize o }
+      else
+        serialize(@object)
+      end
+    end
 
-    def to_json(*_args)
+    alias to_hash serializable_hash
+
+    def serializable_json(*_args)
       ::Oj.dump(to_hash, DEFAULT_OJ_OPTIONS)
     end
 
-    alias serialize_json to_json
+    alias to_json serializable_json
 
     module ClassMethods
       attr_reader :attributes_to_serialize, :transform_method
