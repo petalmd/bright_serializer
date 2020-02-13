@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/Bhacaz/bright_serializer/workflows/Build/badge.svg)](https://github.com/Bhacaz/bright_serializer/actions)
+[![Actions Status](https://github.com/petalmd/bright_serializer/workflows/Build/badge.svg)](https://github.com/petalmd/bright_serializer/actions)
 
 # BrightSerializer
 
