@@ -66,7 +66,7 @@ RSpec.describe BrightSerializer::Serializer do
       Class.new do
         include BrightSerializer::Serializer
 
-        set_key_transform :camel
+        set_key_transform :dash
         attributes :first_name, :last_name
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
@@ -78,9 +78,9 @@ RSpec.describe BrightSerializer::Serializer do
 
     let(:result) do
       {
-        FirstName: user.first_name,
-        LastName: user.last_name,
-        Name: "#{user.first_name} #{user.last_name}"
+        'first-name': user.first_name,
+        'last-name': user.last_name,
+        name: "#{user.first_name} #{user.last_name}"
       }
     end
 
