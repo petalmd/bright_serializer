@@ -25,7 +25,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'serialize without name' do
-      expect(instance.to_hash).to eq(result)
+      expect(instance.serializable_hash).to eq(result)
     end
 
     context 'when condition with params' do
@@ -41,7 +41,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:instance) { serializer_class.new(user, params: 0) }
 
       it 'serialize without name' do
-        expect(instance.to_hash).to eq(result)
+        expect(instance.serializable_hash).to eq(result)
       end
     end
   end

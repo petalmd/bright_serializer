@@ -26,13 +26,13 @@ RSpec.describe BrightSerializer::Serializer do
     }
   end
 
-  describe 'serialize' do
+  describe 'serializable_hash' do
     it 'serialize to hash' do
-      expect(instance.to_hash).to eq(result)
+      expect(instance.serializable_hash).to eq(result)
     end
 
-    it 'serialize to json' do
-      expect(instance.to_json).to eq(result.to_json)
+    it 'serialize to serialized_json' do
+      expect(instance.serialized_json).to eq(result.to_json)
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.describe BrightSerializer::Serializer do
       end
 
       it 'serialize an array of hash' do
-        expect(instance.to_hash).to eq(result)
+        expect(instance.serializable_hash).to eq(result)
       end
     end
   end
@@ -80,6 +80,6 @@ RSpec.describe BrightSerializer::Serializer do
       }
     end
 
-    it { expect(instance.to_hash).to eq(result) }
+    it { expect(instance.serializable_hash).to eq(result) }
   end
 end

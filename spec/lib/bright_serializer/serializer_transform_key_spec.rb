@@ -29,7 +29,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'serialize with camel_lower key' do
-      expect(instance.to_hash).to eq(result)
+      expect(instance.serializable_hash).to eq(result)
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'serialize with camel key' do
-      expect(instance.to_hash).to eq(result)
+      expect(instance.serializable_hash).to eq(result)
     end
   end
 
@@ -85,7 +85,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'serialize with dash key' do
-      expect(instance.to_hash).to eq(result)
+      expect(instance.serializable_hash).to eq(result)
     end
   end
 
@@ -113,7 +113,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'serialize with underscore key' do
-      expect(instance.to_hash).to eq(result)
+      expect(instance.serializable_hash).to eq(result)
     end
   end
 end

@@ -19,10 +19,10 @@ module BrightSerializer
         base.prepend Extensions::Cache
       end
 
-      if defined? ActiveSupport
-        require_relative 'extensions/instrumentation'
-        base.prepend Extensions::Instrumentation
-      end
+      return unless defined? ActiveSupport
+
+      require_relative 'extensions/instrumentation'
+      base.prepend Extensions::Instrumentation
     end
 
     def initialize(object, **options)
@@ -50,14 +50,14 @@ module BrightSerializer
 
     alias to_hash serializable_hash
 
-    def serializable_json(*_args)
+    def serialized_json(*_args)
       ::Oj.dump(to_hash, DEFAULT_OJ_OPTIONS)
     end
 
-    alias to_json serializable_json
+    alias to_json serialized_json
 
     module ClassMethods
-      attr_reader :attributes_to_serialize, :transform_method
+      attr_reader :attributes_to_serialize, :transform_method, :cache_option_attributes
 
       def attributes(*attributes, **options, &block)
         attributes.each do |key|
@@ -86,7 +86,9 @@ module BrightSerializer
       end
 
       def cache_options(cache_options)
-        @cache_options = {
+        return unless defined? Rails
+
+        @cache_option_attributes = {
           cache_length: cache_options[:cache_length] || 5.minutes,
           race_condition_ttL: cache_options[:race_condition_ttl] || 5.seconds
         }
@@ -94,4 +96,3 @@ module BrightSerializer
     end
   end
 end
-# require 'rails'; require_relative 'lib/bright_serializer'; class Hello; include BrightSerializer::Serializer; end

@@ -32,7 +32,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'serialize params' do
-      expect(instance.to_hash).to eq(result)
+      expect(instance.serializable_hash).to eq(result)
     end
   end
 end
