@@ -12,7 +12,7 @@ module BrightSerializer
 
     def self.included(base)
       base.extend ClassMethods
-      base.instance_variable_set(:@attributes_to_serialize, [])
+      base.instance_variable_set(:@attributes_to_serialize, {})
     end
 
     def initialize(object, **options)
@@ -22,7 +22,7 @@ module BrightSerializer
     end
 
     def serialize(object)
-      self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
+      self.class.attributes_to_serialize.values.each_with_object({}) do |attribute, result|
         next if @fields.any? && !@fields.include?(attribute.key)
         next unless attribute.condition?(object, @params)
 
@@ -57,9 +57,9 @@ module BrightSerializer
 
       def attributes(*attributes, **options, &block)
         attributes.each do |key|
-          attribute = Attribute.new(key, options[:if], &block)
+          attribute = Attribute.new(key, options[:if], options[:entity], &block)
           attribute.transformed_key = run_transform_key(key)
-          @attributes_to_serialize << attribute
+          @attributes_to_serialize[key] = attribute
         end
       end
 
@@ -79,6 +79,19 @@ module BrightSerializer
         else
           input.to_sym
         end
+      end
+
+      def entity
+        {}.tap do |result|
+          @attributes_to_serialize.values.each do |attribute|
+            entity_value = attribute.entity&.to_h || BrightSerializer::Entity::Base::DEFAULT_DEFINITION
+            result.merge!(attribute.transformed_key => entity_value)
+          end
+        end
+      end
+
+      def entity_name
+        name.split('::').last.downcase
       end
     end
   end

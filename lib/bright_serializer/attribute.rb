@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
+require_relative 'entity/base'
+
 module BrightSerializer
   class Attribute
-    attr_reader :key, :block, :condition
+    attr_reader :key, :block, :condition, :entity
     attr_accessor :transformed_key
 
-    def initialize(key, condition, &block)
+    def initialize(key, condition, entity, &block)
       @key = key
       @condition = condition
       @block = block
+      @entity = entity ? Entity::Base.new(entity) : nil
     end
 
     def serialize(object, params)
