@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../inflector'
+
 module BrightSerializer
   module Entity
     class Base
@@ -20,7 +22,8 @@ module BrightSerializer
         object = nested_hash_value(@definition, :ref)
         return unless object
 
-        relation = "#/definitions/#{object.delete(:ref).split('::').last.downcase}"
+        ref_entity_name = Inflector.constantize(object.delete(:ref)).entity_name
+        relation = "#/definitions/#{ref_entity_name}"
         object['$ref'] = relation
       end
 

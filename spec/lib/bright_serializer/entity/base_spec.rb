@@ -2,6 +2,19 @@
 
 RSpec.describe BrightSerializer::Entity::Base do
   let(:instance) { described_class.new(type: :string) }
+  let(:entity_class) do
+    Class.new do
+      include BrightSerializer::Serializer
+
+      def self.entity_name
+        'user'
+      end
+    end
+  end
+
+  before do
+    allow(Inflector).to receive(:constantize) { entity_class }
+  end
 
   describe '#to_h' do
     subject { instance.to_h }
