@@ -1,4 +1,5 @@
 [![Actions Status](https://github.com/petalmd/bright_serializer/workflows/Build/badge.svg)](https://github.com/petalmd/bright_serializer/actions?query=workflow%3ABuild)
+[![Gem Version](https://badge.fury.io/rb/bright_serializer.svg)](https://badge.fury.io/rb/bright_serializer)
 
 # BrightSerializer
 
