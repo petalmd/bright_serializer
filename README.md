@@ -125,6 +125,27 @@ class AccountSerializer
 end
 ```
 
+### Entity
+
+You can define the entity of your serializer to generate documentation with the option `entity`.
+The feature was build to work with [grape-swagger](https://github.com/ruby-grape/grape-swagger). 
+For more information about defining a model entity see the [Swagger documentation](https://swagger.io/specification/v2/?sbsearch=array%20response#schema-object).
+
+```ruby
+class AccountSerializer
+  include BrightSerializer::Serializer
+  attribute :id, entity: { type: :string, description: 'The id of the account' }
+  attribute :name
+
+  attribute :friends,
+    entity: { 
+      type: :array, items: { ref: 'FriendSerializer' }, description: 'The list the account friends.'
+     } do |object|
+    FriendSerializer.new(object.friends)
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
