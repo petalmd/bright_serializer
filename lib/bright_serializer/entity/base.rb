@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../inflector'
+require_relative 'parser'
 
 module BrightSerializer
   module Entity
@@ -14,15 +14,16 @@ module BrightSerializer
       end
 
       def to_h
+        @definition.transform_keys! { |k| Inflector.camel_lower k.to_s }
         parse_ref!
         @definition
       end
 
       def parse_ref!
-        object = nested_hash_value(@definition, :ref)
+        object = nested_hash_value(@definition, 'ref')
         return unless object
 
-        ref_entity_name = Inflector.constantize(object.delete(:ref)).entity_name
+        ref_entity_name = Inflector.constantize(object.delete('ref')).entity_name
         relation = "#/definitions/#{ref_entity_name}"
         object['$ref'] = relation
       end

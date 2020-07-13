@@ -20,7 +20,7 @@ RSpec.describe BrightSerializer::Entity::Base do
     subject { instance.to_h }
 
     it 'return the definition' do
-      expect(subject).to eq(type: :string)
+      expect(subject).to eq('type' => :string)
     end
   end
 
@@ -37,15 +37,15 @@ RSpec.describe BrightSerializer::Entity::Base do
       let(:instance) do
         described_class.new(
           type: :array,
-          items: { ref: 'SomeModule::User' }
+          items: { 'ref' => 'SomeModule::User' }
         )
       end
 
       it 'modified @definition' do
         expect(subject).to(
           eq(
-            type: :array,
-            items: {
+            'type' => :array,
+            'items' => {
               '$ref' => '#/definitions/user'
             }
           )

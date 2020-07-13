@@ -12,7 +12,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     it 'return name with his entity' do
-      expect(subject).to eq(name: { type: :string })
+      expect(subject).to eq(name: { 'type' => :string })
     end
 
     context 'when one is undefined' do
@@ -25,7 +25,7 @@ RSpec.describe BrightSerializer::Serializer do
       end
 
       it 'return name with his entity' do
-        expect(subject).to eq(name: { type: :string }, id: { type: :undefined })
+        expect(subject).to eq(id: { type: :undefined }, name: { 'type' => :string })
       end
     end
   end

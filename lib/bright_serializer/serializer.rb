@@ -4,6 +4,7 @@ require 'oj'
 require 'set'
 require_relative 'attribute'
 require_relative 'inflector'
+require_relative 'entity/base'
 
 module BrightSerializer
   module Serializer
