@@ -1,10 +1,8 @@
-[![Actions Status](https://github.com/petalmd/bright_serializer/workflows/Build/badge.svg)](https://github.com/petalmd/bright_serializer/actions)
+[![Actions Status](https://github.com/petalmd/bright_serializer/workflows/Build/badge.svg)](https://github.com/petalmd/bright_serializer/actions?query=workflow%3ABuild)
 
 # BrightSerializer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bright_serializer`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is a very light and fast gem to serialize object in a Ruby project.
 
 ## Installation
 
@@ -22,24 +20,124 @@ Or install it yourself as:
 
     $ gem install bright_serializer
 
-## Usage
+## Usage and features
 
-TODO: Write usage instructions here
+### Basic
+
+Create a class and include `BrightSerializer::Serializer`
+
+```ruby
+class AccountSerializer
+  include BrightSerializer::Serializer
+  attributes :id, :first_name, :last_name
+  
+  # With a block
+  attribute :name do |object|
+    "#{object.first_name} #{object.last_name}"
+  end
+  
+  # With a block shorter
+  attribute :created_at, &:to_s
+end
+
+AccountSerializer.new(Account.first).to_h
+AccountSerializer.new(Account.first).to_json
+```
+
+### Params
+
+You can pass params to your serializer. For example to have more context with the authenticated user.
+
+```ruby
+class AccountSerializer
+  include BrightSerializer::Serializer
+  attributes :id, :first_name, :last_name
+  
+  attribute :friend do |object, params|
+    object.is_friend_with? params[:current_user]
+  end
+end
+
+current_user = Account.find(authenticated_account_id)
+AccountSerializer.new(Account.first, params: { current_user: current_user }).to_json
+```
+
+### Conditional Attributes
+
+Attribute can be remove from serialization by passing a `proc` to the option `if`. If the proc return `true` the attibute 
+ will be serialize. `object` and `params` or accessible. 
+
+```ruby
+class AccountSerializer
+  include BrightSerializer::Serializer
+  attributes :id, :first_name, :last_name
+  
+  attribute :email, if: -> { |object, params| params[:current_user].is_admin? }
+end
+```
+
+### Transform keys
+
+By default, keys or not transformed.
+
+```ruby
+class AccountSerializer
+  include BrightSerializer::Serializer
+  set_key_transform :underscore
+end
+
+set_key_transform :underscore # "first_name" => "first_name"
+set_key_transform :camel # "first_name" => "FirstName"
+set_key_transform :camel_lower # "first_name" => "firstName"
+set_key_transform :dash # "first_name" => "first-name"
+```
+
+### Instance serializer fieldsets
+
+```ruby
+class AccountSerializer
+  include BrightSerializer::Serializer
+  attributes :id, :first_name, :last_name
+end
+
+# Only serialize first_name and last_name
+AccountSerializer.new(Account.first, fields: [:first_name, :last_name]).to_json
+```
+
+### Relations
+
+For now, relations or declared like any other attribute.
+
+```ruby
+class FriendSerializer
+  include BrightSerializer::Serializer
+  attributes :id, :first_name, :last_name
+end
+
+class AccountSerializer
+  include BrightSerializer::Serializer
+  attributes :id, :first_name, :last_name
+  
+  attribute :friends do |object|
+    FriendSerializer.new(object.friends)
+  end
+end
+```
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
+
+## New release
+
+To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/bright_serializer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/petalmd/bright_serializer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the BrightSerializer project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/bright_serializer/blob/master/CODE_OF_CONDUCT.md).
