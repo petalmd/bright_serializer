@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Jean-Francis Bastien']
   spec.email         = ['jfbastien@petalmd.com']
 
-  spec.summary       = 'T O D O: Write a short summary, because RubyGems requires one.'
-  spec.description   = 'T O D O: Write a longer description or delete this line.'
+  spec.summary       = 'Light and fast Ruby serializer'
+  spec.description   = 'BrightSerializer is a minimalist implementation serializer for Ruby objects.'
   spec.homepage      = 'https://github.com/petalmd/bright_serializer'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.5'
