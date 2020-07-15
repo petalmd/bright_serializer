@@ -20,5 +20,4 @@ jobs:
     - name: Specs
       run: bundle exec rake
     - name: Rubocop
-      run: bundle exec rubocop
-
+      run: bundle exec rubocop --parallel
