@@ -49,6 +49,12 @@ module BrightSerializer
     module ClassMethods
       attr_reader :attributes_to_serialize, :transform_method
 
+      def inherited(subclass)
+        super
+        subclass.instance_variable_set(:@attributes_to_serialize, []) unless subclass.attributes_to_serialize
+        subclass.attributes_to_serialize.concat(@attributes_to_serialize)
+      end
+
       def attributes(*attributes, **options, &block)
         attributes.each do |key|
           attribute = Attribute.new(key, options[:if], &block)

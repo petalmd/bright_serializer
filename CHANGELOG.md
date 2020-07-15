@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Add RubyGems version badge
+* Handle inherit from a parent serializer
 
 ## 0.1.1 (2020-07-13)
  
