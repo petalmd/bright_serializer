@@ -20,7 +20,7 @@ module BrightSerializer
       end
 
       def parse_ref!
-        object = nested_hash_value(@definition, 'ref')
+        object = nested_hash(@definition, 'ref')
         return unless object
 
         ref_entity_name = Inflector.constantize(object.delete('ref')).entity_name
@@ -28,12 +28,12 @@ module BrightSerializer
         object['$ref'] = relation
       end
 
-      def nested_hash_value(obj, key)
+      def nested_hash(obj, key)
         if obj.respond_to?(:key?) && obj.key?(key)
           obj
         elsif obj.respond_to?(:each)
           r = nil
-          obj.find { |*a| r = nested_hash_value(a.last, key) }
+          obj.find { |*a| r = nested_hash(a.last, key) }
           r
         end
       end
