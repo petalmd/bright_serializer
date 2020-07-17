@@ -4,6 +4,7 @@
 
 * Add RubyGems version badge
 * Handle inherit from a parent serializer
+* Define entity in serializer for grape_swagger (#9)
 
 ## 0.1.1 (2020-07-13)
  

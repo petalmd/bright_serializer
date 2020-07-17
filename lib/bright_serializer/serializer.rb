@@ -4,6 +4,7 @@ require 'oj'
 require 'set'
 require_relative 'attribute'
 require_relative 'inflector'
+require_relative 'entity/base'
 
 module BrightSerializer
   module Serializer
@@ -31,7 +32,7 @@ module BrightSerializer
     end
 
     def serializable_hash
-      if @object.respond_to?(:size) && !@object.respond_to?(:each_pair)
+      if @object.respond_to?(:each) && !@object.respond_to?(:each_pair)
         @object.map { |o| serialize o }
       else
         serialize(@object)
@@ -57,7 +58,7 @@ module BrightSerializer
 
       def attributes(*attributes, **options, &block)
         attributes.each do |key|
-          attribute = Attribute.new(key, options[:if], &block)
+          attribute = Attribute.new(key, options[:if], options[:entity], &block)
           attribute.transformed_key = run_transform_key(key)
           @attributes_to_serialize << attribute
         end
@@ -79,6 +80,19 @@ module BrightSerializer
         else
           input.to_sym
         end
+      end
+
+      def entity
+        {}.tap do |result|
+          @attributes_to_serialize.each do |attribute|
+            entity_value = attribute.entity&.to_h || BrightSerializer::Entity::Base::DEFAULT_DEFINITION
+            result.merge!(attribute.transformed_key => entity_value)
+          end
+        end
+      end
+
+      def entity_name
+        name.split('::').last.downcase
       end
     end
   end
