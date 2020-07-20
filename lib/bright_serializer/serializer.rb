@@ -54,6 +54,7 @@ module BrightSerializer
         super
         subclass.instance_variable_set(:@attributes_to_serialize, []) unless subclass.attributes_to_serialize
         subclass.attributes_to_serialize.concat(@attributes_to_serialize)
+        subclass.instance_variable_set(:@transform_method, @transform_method) unless subclass.transform_method
       end
 
       def attributes(*attributes, **options, &block)
