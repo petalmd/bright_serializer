@@ -3,21 +3,35 @@ name: Build
 on: [push]
 
 jobs:
-  build:
+  Build:
 
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Ruby 2.7
+    - name: Set up Ruby ${{ matrix.ruby }}
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: ${{ matrix.ruby }}
     - name: Bundle install
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
     - name: Specs
       run: bundle exec rake
-    - name: Rubocop
-      run: bundle exec rubocop --parallel
+  Rubocop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Ruby 2.7
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - name: Bundle install
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+      - name: Rubocop
+        run: bundle exec rubocop --parallel
