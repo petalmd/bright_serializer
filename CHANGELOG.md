@@ -3,7 +3,8 @@
 ## master (unreleased)
 
 * Your contribution
-* Run CI build on all supported Ruby versions 
+* Run CI build on all supported Ruby versions (#11)
+* Update Rubocop 0.78.0 => 0.88.0 and run auto-correction
 
 ## 0.2.1 (2020-07-21)
 

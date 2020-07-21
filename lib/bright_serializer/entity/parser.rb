@@ -3,8 +3,7 @@
 module BrightSerializer
   module Entity
     class Parser
-      attr_reader :model
-      attr_reader :endpoint
+      attr_reader :model, :endpoint
 
       def initialize(model, endpoint)
         @model = model
