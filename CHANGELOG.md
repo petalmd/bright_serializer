@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Your contribution
+* Run CI build on all supported Ruby versions 
 
 ## 0.2.1 (2020-07-21)
 
