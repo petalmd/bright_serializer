@@ -87,12 +87,13 @@ RSpec.describe BrightSerializer::Serializer do
     let(:parent_class) do
       Class.new do
         include BrightSerializer::Serializer
-        attributes :first_name, :last_name
+        attributes :first_name
       end
     end
 
     let(:child_class) do
       Class.new(parent_class) do
+        attribute :last_name
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
         end
@@ -108,6 +109,29 @@ RSpec.describe BrightSerializer::Serializer do
         {
           first_name: user.first_name,
           last_name: user.last_name,
+          name: "#{user.first_name} #{user.last_name}"
+        }
+      end
+      let(:user) { User.new }
+
+      it 'serialize all 3 attributes' do
+        expect(child_class.new(user).to_hash).to eq(result)
+      end
+    end
+
+    describe 'transform_key' do
+      let(:parent_class) do
+        Class.new do
+          include BrightSerializer::Serializer
+          set_key_transform :camel_lower
+          attributes :first_name
+        end
+      end
+
+      let(:result) do
+        {
+          firstName: user.first_name,
+          lastName: user.last_name,
           name: "#{user.first_name} #{user.last_name}"
         }
       end

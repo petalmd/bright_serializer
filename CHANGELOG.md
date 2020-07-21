@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Your contribution
+* Handle set_key_transform inherited from a parent serializer (#10)
 
 ## 0.2.0 (2020-07-17)
 
