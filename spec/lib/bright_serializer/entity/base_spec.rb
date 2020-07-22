@@ -37,7 +37,7 @@ RSpec.describe BrightSerializer::Entity::Base do
       let(:instance) do
         described_class.new(
           type: :array,
-          items: { 'ref' => 'SomeModule::User' }
+          items: { ref: 'SomeModule::User' }
         )
       end
 

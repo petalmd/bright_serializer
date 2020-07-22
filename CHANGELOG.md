@@ -5,6 +5,7 @@
 * Your contribution
 * Run CI build on all supported Ruby versions (#11)
 * Update Rubocop 0.78.0 => 0.88.0 and run auto-correction
+* Deep transform entity keys (#12)
 
 ## 0.2.1 (2020-07-21)
 

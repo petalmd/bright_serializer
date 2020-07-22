@@ -14,7 +14,7 @@ module BrightSerializer
       end
 
       def to_h
-        @definition.transform_keys! { |k| Inflector.camel_lower k.to_s }
+        Inflector.deep_transform_keys_in_object!(@definition) { |k| Inflector.camel_lower k.to_s }
         parse_ref!
         @definition
       end
