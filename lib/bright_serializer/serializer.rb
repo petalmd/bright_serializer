@@ -12,6 +12,7 @@ module BrightSerializer
     DEFAULT_OJ_OPTIONS = { mode: :compat, time_format: :ruby, use_to_json: true }.freeze
 
     def self.included(base)
+      super
       base.extend ClassMethods
       base.instance_variable_set(:@attributes_to_serialize, [])
     end
