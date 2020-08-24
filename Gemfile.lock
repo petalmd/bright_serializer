@@ -8,13 +8,15 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.1)
+    bigdecimal (2.0.0)
     concurrent-ruby (1.1.6)
     diff-lcs (1.4.4)
     faker (2.13.0)
       i18n (>= 1.6, < 2)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
-    oj (3.10.8)
+    oj (3.10.12)
+      bigdecimal (>= 1.0, < 3)
     parallel (1.19.2)
     parser (2.7.1.4)
       ast (~> 2.4.1)
