@@ -18,7 +18,7 @@ jobs:
         bundle install --jobs 4 --retry 3
     - name: Specs
       run: bundle exec rake
-    - Check delta coverage
+    - name: Check delta coverage
       run: ruby scripts/coverage_delta_checks.rb
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
