@@ -6,21 +6,24 @@ jobs:
   Build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.5, 2.6, 2.7]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Ruby ${{ matrix.ruby }}
+    - name: Set up Ruby 2.7
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby }}
+        ruby-version: 2.7
     - name: Bundle install
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
     - name: Specs
       run: bundle exec rake
+    - Check delta coverage
+      run: ruby scripts/coverage_delta_checks.rb
+      env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          GITHUB_APP_ID: ${{ secrets.GITHUB_APP_ID }}
+          GITHUB_APP_INSTALLATION_ID: ${{ secrets.GITHUB_APP_INSTALLATION_ID }}
   Rubocop:
     runs-on: ubuntu-latest
     steps:

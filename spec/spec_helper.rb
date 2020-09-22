@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
+require 'simplecov'
 require 'bundler/setup'
-require 'bright_serializer'
 require 'faker'
+
+SimpleCov.start do
+  add_filter "spec/"
+  add_filter "scrips/"
+end
+
+require 'bright_serializer'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
