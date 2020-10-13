@@ -87,7 +87,8 @@ module BrightSerializer
       def entity
         {}.tap do |result|
           @attributes_to_serialize.each do |attribute|
-            entity_value = attribute.entity&.to_h || BrightSerializer::Entity::Base::DEFAULT_DEFINITION
+            entity_value = attribute.entity&.to_h || # rubocop:disable Lint/RedundantSafeNavigation
+                           BrightSerializer::Entity::Base::DEFAULT_DEFINITION
             result.merge!(attribute.transformed_key => entity_value)
           end
         end
