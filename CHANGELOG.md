@@ -4,6 +4,10 @@
 
 * Your contribution
 
+## 0.2.3 (2021-01-04)
+
+* Update dependencies ([v0.2.2...v0.2.3](https://github.com/petalmd/bright_serializer/compare/v0.2.2...v0.2.3))
+
 ## 0.2.2 (2020-07-22)
 
 * Run CI build on all supported Ruby versions ([#11](https://github.com/petalmd/bright_serializer/pull/11))
