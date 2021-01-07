@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Your contribution
+* Added relation helper methods `has_one`, `has_many`, `belongs_to` ([#49](https://github.com/petalmd/bright_serializer/pull/49))
 
 ## 0.2.3 (2021-01-04)
 
