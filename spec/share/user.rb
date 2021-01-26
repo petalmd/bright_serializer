@@ -2,6 +2,7 @@
 
 class User
   attr_reader :first_name, :last_name, :id
+  attr_accessor :friends
 
   def initialize
     @first_name = Faker::Name.first_name
