@@ -21,7 +21,7 @@ module BrightSerializer
         if @block
           @block.arity.abs == 1 ? object.instance_eval(&@block) : object.instance_exec(object, params, &@block)
         elsif object.is_a?(Hash)
-          object[key]
+          object[key] || object[key.to_s]
         else
           object.send(key)
         end

@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Your contribution
+* Try symbol and string keys when the object to serialize is an Hash
 
 ## 0.2.3 (2021-01-04)
 
