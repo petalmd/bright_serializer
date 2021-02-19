@@ -34,3 +34,6 @@ Metrics/CyclomaticComplexity:
 
 Metrics/AbcSize:
   Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
