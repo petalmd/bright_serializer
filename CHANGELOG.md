@@ -3,7 +3,10 @@
 ## master (unreleased)
 
 * Your contribution
-* Try symbol and string keys when the object to serialize is an Hash
+
+## 0.2.4 (2021-02-19)
+
+* Try symbol and string keys when the object to serialize is an Hash ([#54](https://github.com/petalmd/bright_serializer/pull/54))
 
 ## 0.2.3 (2021-01-04)
 
