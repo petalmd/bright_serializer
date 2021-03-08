@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Your contribution
+* When serializing an Hash, check present of the key before trying string ([#57](https://github.com/petalmd/bright_serializer/pull/57))
 
 ## 0.2.4 (2021-02-19)
 
