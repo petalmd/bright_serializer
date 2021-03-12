@@ -28,5 +28,30 @@ RSpec.describe BrightSerializer::Serializer do
     it 'serialize params' do
       expect(instance.to_hash).to eq(result)
     end
+
+    context 'params' do
+      let(:serializer_class) do
+        Class.new do
+          include BrightSerializer::Serializer
+          attributes :first_name do |object, _params, sideloaders|
+            sideloaders.upcase_first_name[object.id]
+          end
+
+          sideload :upcase_first_name do |objects, params|
+            objects.each_with_object({}) { |object, result| result[object.id] = "#{params[:prefix]} #{object.first_name.upcase}" }
+          end
+        end
+      end
+
+      let(:instance) { serializer_class.new(users, params: { prefix: 'Hi,'}) }
+
+      let(:result) do
+        users.map { |user| { first_name: "Hi, #{user.first_name.upcase}" } }
+      end
+
+      it 'serialize params' do
+        expect(instance.to_hash).to eq(result)
+      end
+    end
   end
 end

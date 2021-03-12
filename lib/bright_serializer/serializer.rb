@@ -22,7 +22,7 @@ module BrightSerializer
       @object = object
       @params = options.delete(:params)
       @fields = Set.new(options.delete(:fields))
-      @sideloader = Sideloader.new(self.class.sideloaders, @object)
+      @sideloader = Sideloader.new(self.class.sideloaders, @object, @params)
     end
 
     def serialize(object)

@@ -142,8 +142,9 @@ class AccountSerializer
   sideloaders.friend_ids[object.id]
  end
 
- # Load the data and return in a format that can be used with `object`
- sideload :friend_ids do |objects|
+ # Load the data and return in a format that can be used with `object`.
+ # `params` is also accessible as the second param passed in the block.
+ sideload :friend_ids do |objects, _params|
   Friend.where(account_id: objects.map(&:id))
         .pluck(:account_id, :friend_id)
         .each_with_object({}) do |(account_id, friend_id), result|
