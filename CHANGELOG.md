@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Your contribution
+* Added `sideload` helper method. ([#-1](https://github.com/petalmd/bright_serializer/pull/-1))
 
 ## 0.2.5 (2021-03-08)
 
