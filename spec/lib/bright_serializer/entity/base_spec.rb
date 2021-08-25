@@ -22,6 +22,14 @@ RSpec.describe BrightSerializer::Entity::Base do
     it 'return the definition' do
       expect(subject).to eq('type' => :string)
     end
+
+    context 'when it is a array' do
+      let(:instance) { described_class.new([type: :string]) }
+
+      it 'return the definition' do
+        expect(subject).to eq(['type' => :string])
+      end
+    end
   end
 
   describe '#parser_ref!' do
