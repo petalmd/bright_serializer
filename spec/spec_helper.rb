@@ -9,6 +9,7 @@ if ENV['COVERALLS_REPO_TOKEN']
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
   SimpleCov.start do
     add_filter 'spec'
+    enable_coverage :branch
   end
 end
 
