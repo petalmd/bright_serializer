@@ -1,6 +1,6 @@
 [![Actions Status](https://github.com/petalmd/bright_serializer/workflows/Build/badge.svg)](https://github.com/petalmd/bright_serializer/actions?query=workflow%3ABuild)
 [![Gem Version](https://badge.fury.io/rb/bright_serializer.svg)](https://badge.fury.io/rb/bright_serializer)
-[![Coverage Status](https://coveralls.io/repos/github/petalmd/bright_serializer/badge.svg?branch=HEAD)](https://coveralls.io/github/petalmd/bright_serializer?branch=HEAD)
+[![Coverage Status](https://coveralls.io/repos/github/petalmd/bright_serializer/badge.svg?branch=master)](https://coveralls.io/github/petalmd/bright_serializer?branch=master)
 
 # BrightSerializer
 
