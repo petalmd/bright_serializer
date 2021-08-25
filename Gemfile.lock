@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/Bhacaz/coveralls-ruby-reborn
-  revision: 4bea4e42900d155249270a57a102f86043eb7dc8
+  revision: 9a82aaa1389da41832e8c40665aedec453e21ec3
   branch: branches
   specs:
     coveralls_reborn (0.22.0)
