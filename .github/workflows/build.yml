@@ -2,6 +2,9 @@ name: Build
 on:
   pull_request:
     types: [synchronize]
+  push:
+    branches:
+      - master
 jobs:
   Build:
     runs-on: ubuntu-latest
