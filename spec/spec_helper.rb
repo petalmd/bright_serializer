@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+
+if ENV['COVERALLS_REPO_TOKEN']
+  require 'simplecov'
+  require 'coveralls'
+
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  SimpleCov.start do
+    add_filter 'spec'
+  end
+end
+
 require 'bright_serializer'
 require 'faker'
 
