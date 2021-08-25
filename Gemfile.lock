@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/Bhacaz/coveralls-ruby-reborn
+  revision: 4bea4e42900d155249270a57a102f86043eb7dc8
+  branch: branches
+  specs:
+    coveralls_reborn (0.22.0)
+      simplecov (>= 0.18.1, < 0.22.0)
+      term-ansicolor (~> 1.6)
+      thor (>= 0.20.3, < 2.0)
+      tins (~> 1.16)
+
 PATH
   remote: .
   specs:
@@ -9,11 +20,6 @@ GEM
   specs:
     ast (2.4.1)
     concurrent-ruby (1.1.7)
-    coveralls_reborn (0.22.0)
-      simplecov (>= 0.18.1, < 0.22.0)
-      term-ansicolor (~> 1.6)
-      thor (>= 0.20.3, < 2.0)
-      tins (~> 1.16)
     diff-lcs (1.4.4)
     docile (1.4.0)
     faker (2.15.1)
@@ -79,7 +85,7 @@ PLATFORMS
 DEPENDENCIES
   bright_serializer!
   bundler (~> 2)
-  coveralls_reborn
+  coveralls_reborn!
   faker
   oj
   rake (~> 13.0)
