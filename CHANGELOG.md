@@ -2,8 +2,8 @@
 
 ## master (unreleased)
 
-* Your contribution
-* Use real coveralls_reborn gem 
+* Added the support to use instance methods from a serializer class in the library
+* Use real coveralls_reborn gem
 
 ## 0.2.5 (2021-03-08)
 
@@ -34,7 +34,7 @@
 * Define entity in serializer for grape_swagger ([#9](https://github.com/petalmd/bright_serializer/pull/9))
 
 ## 0.1.1 (2020-07-13)
- 
+
 * Add description in gemspec file
 * Add content in CHANGELOG.md
 

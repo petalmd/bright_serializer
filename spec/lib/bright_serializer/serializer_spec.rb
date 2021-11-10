@@ -11,7 +11,14 @@ RSpec.describe BrightSerializer::Serializer do
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
         end
+        attribute :name_to_s do |object|
+          add_mr(object)
+        end
         attribute :first, &:first_name
+
+        def add_mr(object)
+          "User: #{object.first_name} #{object.last_name}"
+        end
       end
     end
 
@@ -23,6 +30,7 @@ RSpec.describe BrightSerializer::Serializer do
         first_name: user.first_name,
         last_name: user.last_name,
         name: "#{user.first_name} #{user.last_name}",
+        name_to_s: "User: #{user.first_name} #{user.last_name}",
         first: user.first_name
       }
     end
