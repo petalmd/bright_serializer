@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Your contribution
+* Use real coveralls_reborn gem 
 
 ## 0.2.5 (2021-03-08)
 
