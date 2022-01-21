@@ -28,7 +28,7 @@ module BrightSerializer
         next if @fields.any? && !@fields.include?(attribute.key)
         next unless attribute.condition?(object, @params)
 
-        result[attribute.transformed_key] = attribute.serialize(object, @params)
+        result[attribute.transformed_key] = attribute.serialize(self, object, @params)
       end
     end
 

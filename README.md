@@ -32,12 +32,12 @@ Create a class and include `BrightSerializer::Serializer`
 class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
-  
+
   # With a block
   attribute :name do |object|
     "#{object.first_name} #{object.last_name}"
   end
-  
+
   # With a block shorter
   attribute :created_at, &:to_s
 end
@@ -54,7 +54,7 @@ You can pass params to your serializer. For example to have more context with th
 class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
-  
+
   attribute :friend do |object, params|
     object.is_friend_with? params[:current_user]
   end
@@ -66,14 +66,14 @@ AccountSerializer.new(Account.first, params: { current_user: current_user }).to_
 
 ### Conditional Attributes
 
-Attribute can be remove from serialization by passing a `proc` to the option `if`. If the proc return `true` the attibute 
- will be serialize. `object` and `params` or accessible. 
+Attribute can be remove from serialization by passing a `proc` to the option `if`. If the proc return `true` the attibute
+ will be serialize. `object` and `params` or accessible.
 
 ```ruby
 class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
-  
+
   attribute :email, if: -> { |object, params| params[:current_user].is_admin? }
 end
 ```
@@ -119,7 +119,7 @@ end
 class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
-  
+
   attribute :friends do |object|
     FriendSerializer.new(object.friends)
   end
@@ -129,7 +129,7 @@ end
 ### Entity
 
 You can define the entity of your serializer to generate documentation with the option `entity`.
-The feature was build to work with [grape-swagger](https://github.com/ruby-grape/grape-swagger). 
+The feature was build to work with [grape-swagger](https://github.com/ruby-grape/grape-swagger).
 For more information about defining a model entity see the [Swagger documentation](https://swagger.io/specification/v2/?sbsearch=array%20response#schema-object).
 
 ```ruby
@@ -139,10 +139,29 @@ class AccountSerializer
   attribute :name
 
   attribute :friends,
-    entity: { 
+    entity: {
       type: :array, items: { ref: 'FriendSerializer' }, description: 'The list the account friends.'
      } do |object|
     FriendSerializer.new(object.friends)
+  end
+end
+```
+
+### Instance
+
+If you have defined instance methods inside your serializer you can access them inside block attribute.
+
+```ruby
+class AccountSerializer
+  include BrightSerializer::Serializer
+  attributes :id, :name
+
+  attribute :print do |object|
+    print_account(object)
+  end
+
+  def print_account(object)
+    "Account: #{object.name}"
   end
 end
 ```

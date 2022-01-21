@@ -16,6 +16,14 @@ RSpec.describe BrightSerializer::Serializer do
         attribute :params do |object, params|
           "#{object.first_name} #{object.last_name} #{params}"
         end
+
+        attribute :params_upcase do |object, params|
+          upcase(object, params)
+        end
+
+        def upcase(object, params)
+          "#{object.first_name} #{object.last_name} #{params}".upcase
+        end
       end
     end
 
@@ -27,7 +35,8 @@ RSpec.describe BrightSerializer::Serializer do
         first_name: user.first_name,
         last_name: user.last_name,
         name: "#{user.first_name} #{user.last_name}",
-        params: "#{user.first_name} #{user.last_name} #{param}"
+        params: "#{user.first_name} #{user.last_name} #{param}",
+        params_upcase: "#{user.first_name} #{user.last_name} #{param}".upcase
       }
     end
 
