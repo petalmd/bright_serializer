@@ -12,6 +12,3 @@
 
 # IDE files
 .idea/
-
-# Gemfile.lock
-/Gemfile.lock
