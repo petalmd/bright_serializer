@@ -154,7 +154,7 @@ If you have defined instance methods inside your serializer you can access them 
 ```ruby
 class AccountSerializer
   include BrightSerializer::Serializer
-  attributes [:id, :name]
+  attributes :id, :name
 
   attribute :print do |object|
     print_account(object)

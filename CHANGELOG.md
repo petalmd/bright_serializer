@@ -2,7 +2,7 @@
 
 ## master (unreleased)
 
-* Added the support to use instance methods from a serializer class in the library
+* Added the support to use instance methods from a serializer class in the library ([#85](https://github.com/petalmd/bright_serializer/pull/85))
 * Use real coveralls_reborn gem
 
 ## 0.2.5 (2021-03-08)
