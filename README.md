@@ -145,6 +145,12 @@ class AccountSerializer
     FriendSerializer.new(object.friends)
   end
 end
+
+```
+Callable values are supported.
+
+```ruby
+{ entity: { type: :string, enum: -> { SomeModel::ENUMVALUES } } }
 ```
 
 ### Instance

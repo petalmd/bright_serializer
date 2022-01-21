@@ -8,4 +8,14 @@ RSpec.describe Inflector do
 
     specify { is_expected.to eq described_class }
   end
+
+  describe '#deep_transform_values_in_object' do
+    subject { described_class.deep_transform_values_in_object(hash, &:capitalize) }
+
+    let(:hash) { { users: [{ name: 'john' }] } }
+
+    it 'transforms value' do
+      expect(subject).to eq({ users: [{ name: 'John' }] })
+    end
+  end
 end
