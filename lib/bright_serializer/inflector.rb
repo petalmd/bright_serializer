@@ -60,17 +60,15 @@ class Inflector
       end
     end
 
-    # File active_support/core_ext/hash/keys.rb, line 156
-    def deep_transform_keys_in_object!(object, &block)
+    # File active_support/core_ext/hash/keys.rb, line 116
+    def deep_transform_keys_in_object(object, &block)
       case object
       when Hash
-        object.keys.each do |key| # rubocop:disable Style/HashEachMethods
-          value = object.delete(key)
-          object[yield(key)] = deep_transform_keys_in_object!(value, &block)
+        object.each_with_object({}) do |(key, value), result|
+          result[yield(key)] = deep_transform_keys_in_object(value, &block)
         end
-        object
       when Array
-        object.map! { |e| deep_transform_keys_in_object!(e, &block) }
+        object.map { |e| deep_transform_keys_in_object(e, &block) }
       else
         object
       end
