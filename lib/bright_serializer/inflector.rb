@@ -73,5 +73,17 @@ class Inflector
         object
       end
     end
+
+    # File active_support/core_ext/hash/deep_transform_values.rb, line 25
+    def deep_transform_values_in_object(object, &block)
+      case object
+      when Hash
+        object.transform_values { |value| deep_transform_values_in_object(value, &block) }
+      when Array
+        object.map { |e| deep_transform_values_in_object(e, &block) }
+      else
+        yield(object)
+      end
+    end
   end
 end
