@@ -8,7 +8,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.1)
-    concurrent-ruby (1.1.7)
+    concurrent-ruby (1.1.9)
     coveralls_reborn (0.22.0)
       simplecov (>= 0.18.1, < 0.22.0)
       term-ansicolor (~> 1.6)
@@ -16,9 +16,9 @@ GEM
       tins (~> 1.16)
     diff-lcs (1.4.4)
     docile (1.4.0)
-    faker (2.15.1)
-      i18n (>= 1.6, < 2)
-    i18n (1.8.5)
+    faker (2.20.0)
+      i18n (>= 1.8.11, < 2)
+    i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     oj (3.11.1)
     parallel (1.20.1)
