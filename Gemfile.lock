@@ -7,6 +7,11 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (5.2.4.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
     ast (2.4.1)
     concurrent-ruby (1.1.7)
     coveralls_reborn (0.22.0)
@@ -20,6 +25,7 @@ GEM
       i18n (>= 1.6, < 2)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    minitest (5.14.4)
     oj (3.11.1)
     parallel (1.20.1)
     parser (3.0.0.0)
@@ -69,14 +75,18 @@ GEM
     term-ansicolor (1.7.1)
       tins (~> 1.0)
     thor (1.1.0)
+    thread_safe (0.3.6)
     tins (1.29.1)
       sync
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport (~> 5.0)
   bright_serializer!
   bundler (~> 2)
   coveralls_reborn

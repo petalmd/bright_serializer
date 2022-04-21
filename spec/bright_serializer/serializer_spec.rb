@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../share/user'
+require_relative '../share/user'
 
 RSpec.describe BrightSerializer::Serializer do
   describe '#serialize' do

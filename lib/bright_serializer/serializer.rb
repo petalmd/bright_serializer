@@ -5,9 +5,12 @@ require 'set'
 require_relative 'attribute'
 require_relative 'inflector'
 require_relative 'entity/base'
+require_relative 'extensions'
 
 module BrightSerializer
   module Serializer
+    include Extensions
+
     SUPPORTED_TRANSFORMATION = %i[camel camel_lower dash underscore].freeze
     DEFAULT_OJ_OPTIONS = { mode: :compat, time_format: :ruby, use_to_json: true }.freeze
 
