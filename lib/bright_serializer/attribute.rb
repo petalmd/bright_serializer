@@ -19,7 +19,7 @@ module BrightSerializer
 
       value =
         if @block
-          if @block.arity.abs == 1
+          if @block.arity.negative?
             serializer_instance.instance_exec(object, &@block)
           else
             serializer_instance.instance_exec(object, params, &@block)
