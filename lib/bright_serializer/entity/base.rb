@@ -14,8 +14,9 @@ module BrightSerializer
       end
 
       def to_h
-        Inflector.deep_transform_keys_in_object!(@definition) { |k| Inflector.camel_lower k.to_s }
+        @definition = Inflector.deep_transform_keys_in_object(@definition) { |k| Inflector.camel_lower k.to_s }
         parse_ref!
+        evaluate_callable!
         @definition
       end
 
@@ -26,6 +27,12 @@ module BrightSerializer
         ref_entity_name = Inflector.constantize(object.delete('ref')).entity_name
         relation = "#/definitions/#{ref_entity_name}"
         object['$ref'] = relation
+      end
+
+      def evaluate_callable!
+        @definition = Inflector.deep_transform_values_in_object(@definition) do |value|
+          value.respond_to?(:call) ? value.call : value
+        end
       end
 
       def nested_hash(obj, key)

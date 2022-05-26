@@ -28,6 +28,32 @@ RSpec.describe BrightSerializer::Serializer do
         expect(subject).to eq(id: { type: :undefined }, name: { 'type' => :string })
       end
     end
+
+    context 'when entity has a frozen array' do
+      let(:serializer_class) do
+        Class.new do
+          include BrightSerializer::Serializer
+          attribute :name, entity: { type: :string, enum: %w[a b c].freeze }
+        end
+      end
+
+      it 'returns name with his entity' do
+        expect(subject).to eq(name: { 'type' => :string, 'enum' => %w[a b c].freeze })
+      end
+    end
+
+    context 'when entity has snake_case keys' do
+      let(:serializer_class) do
+        Class.new do
+          include BrightSerializer::Serializer
+          attribute :name, entity: { type: :string, my_param: 'abc' }
+        end
+      end
+
+      it 'transforms keys to camel case' do
+        expect(subject).to eq(name: { 'type' => :string, 'myParam' => 'abc' })
+      end
+    end
   end
 
   describe '.entity_name' do

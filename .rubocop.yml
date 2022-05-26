@@ -39,3 +39,7 @@ Metrics/AbcSize:
 
 Metrics/ParameterLists:
   Max: 6
+
+
+RSpec/NestedGroups:
+  Enabled: false

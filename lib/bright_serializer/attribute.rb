@@ -14,14 +14,18 @@ module BrightSerializer
       @entity = entity ? Entity::Base.new(entity) : nil
     end
 
-    def serialize(object, params)
+    def serialize(serializer_instance, object, params)
       return unless object
 
       value =
         if @block
-          @block.arity.abs == 1 ? object.instance_eval(&@block) : object.instance_exec(object, params, &@block)
+          if @block.arity.abs == 1
+            serializer_instance.instance_exec(object, &@block)
+          else
+            serializer_instance.instance_exec(object, params, &@block)
+          end
         elsif object.is_a?(Hash)
-          object[key]
+          object.key?(key) ? object[key] : object[key.to_s]
         else
           object.send(key)
         end

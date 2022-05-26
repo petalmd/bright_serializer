@@ -1,37 +1,47 @@
 name: Build
-
-on: [push]
-
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - master
 jobs:
   Build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby: [2.5, 2.6, 2.7]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
     - name: Set up Ruby ${{ matrix.ruby }}
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
     - name: Bundle install
-      run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
+      run: bundle install --jobs 4
+    - name: Specs with coverage
+      if: ${{ matrix.ruby == 2.7 }}
+      run: bundle exec rake
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        CI_PULL_REQUEST: ${{ github.event.number }}
+        CI_BRANCH: ${{ github.head_ref }}
     - name: Specs
+      if: ${{ matrix.ruby != 2.7 }}
       run: bundle exec rake
   Rubocop:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Set up Ruby 2.7
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
+          bundler-cache: true
       - name: Bundle install
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+        run: bundle install --jobs 4
       - name: Rubocop
         run: bundle exec rubocop --parallel

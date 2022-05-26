@@ -10,6 +10,7 @@ gemspec
 gem 'oj', require: false
 
 group :test do
+  gem 'coveralls_reborn', require: false
   gem 'faker'
   gem 'rubocop'
   gem 'rubocop-performance'

@@ -12,7 +12,14 @@ RSpec.describe BrightSerializer::Serializer do
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
         end
+        attribute :name_to_s do |object|
+          add_mr(object)
+        end
         attribute :first, &:first_name
+
+        def add_mr(object)
+          "User: #{object.first_name} #{object.last_name}"
+        end
       end
     end
 
@@ -24,6 +31,7 @@ RSpec.describe BrightSerializer::Serializer do
         first_name: user.first_name,
         last_name: user.last_name,
         name: "#{user.first_name} #{user.last_name}",
+        name_to_s: "User: #{user.first_name} #{user.last_name}",
         first: user.first_name
       }
     end
@@ -81,6 +89,33 @@ RSpec.describe BrightSerializer::Serializer do
       end
 
       it { expect(instance.to_hash).to eq(result) }
+
+      context 'when the object is an Hash with string keys' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+          end
+        end
+
+        let(:user_hash) do
+          {
+            'first_name' => user.first_name,
+            'last_name' => user.last_name
+          }
+        end
+
+        let(:result) do
+          {
+            first_name: user.first_name,
+            last_name: user.last_name
+          }
+        end
+
+        it 'serialize all 3 attributes' do
+          expect(serializer_class.new(user_hash).to_hash).to eq(result)
+        end
+      end
     end
   end
 

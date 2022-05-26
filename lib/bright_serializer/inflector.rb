@@ -66,19 +66,29 @@ class Inflector
       end
     end
 
-    # File active_support/core_ext/hash/keys.rb, line 156
-    def deep_transform_keys_in_object!(object, &block)
+    # File active_support/core_ext/hash/keys.rb, line 116
+    def deep_transform_keys_in_object(object, &block)
       case object
       when Hash
-        object.keys.each do |key| # rubocop:disable Style/HashEachMethods
-          value = object.delete(key)
-          object[yield(key)] = deep_transform_keys_in_object!(value, &block)
+        object.each_with_object({}) do |(key, value), result|
+          result[yield(key)] = deep_transform_keys_in_object(value, &block)
         end
-        object
       when Array
-        object.map! { |e| deep_transform_keys_in_object!(e, &block) }
+        object.map { |e| deep_transform_keys_in_object(e, &block) }
       else
         object
+      end
+    end
+
+    # File active_support/core_ext/hash/deep_transform_values.rb, line 25
+    def deep_transform_values_in_object(object, &block)
+      case object
+      when Hash
+        object.transform_values { |value| deep_transform_values_in_object(value, &block) }
+      when Array
+        object.map { |e| deep_transform_values_in_object(e, &block) }
+      else
+        yield(object)
       end
     end
   end
