@@ -9,9 +9,10 @@ module BrightSerializer
       super(key, condition, entity, &block)
     end
 
-    def serialize(object, params)
+    def serialize(_serializer_instance, object, params)
       relation = object.is_a?(Hash) ? object[key] : object.public_send(key)
-      class_serializer.new(relation, params: (params || {}).merge(@params)).serializable_hash
+      merged_params = (params || {}).merge(@params)
+      class_serializer.new(relation, params: merged_params).serializable_hash
     end
 
     private
