@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Move specs out of lib ([#96](https://github.com/petalmd/bright_serializer/pull/96)) 
+
 ## 0.3.0 (2022-05-26)
 
 * Allow to evaluate entity values with a callable lambda. ([#88](https://github.com/petalmd/bright_serializer/pull/88))
