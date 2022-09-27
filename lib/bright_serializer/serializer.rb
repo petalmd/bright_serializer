@@ -20,12 +20,14 @@ module BrightSerializer
     def initialize(object, **options)
       @object = object
       @params = options.delete(:params)
-      @fields = Set.new(options.delete(:fields))
+
+      fields = options.delete(:fields)
+      @fields = fields ? Set.new(fields) : nil
     end
 
     def serialize(object)
       self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
-        next if @fields.any? && !@fields.include?(attribute.key)
+        next if !@fields.nil? && !@fields.include?(attribute.key)
         next unless attribute.condition?(object, @params)
 
         result[attribute.transformed_key] = attribute.serialize(self, object, @params)
