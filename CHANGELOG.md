@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+## 0.3.1 (2022-09-28)
+
 * Performance improvements, use nil instead of empty set. ([#97](https://github.com/petalmd/bright_serializer/pull/97))
 * Move specs out of lib. ([#96](https://github.com/petalmd/bright_serializer/pull/96))
 
