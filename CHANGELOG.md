@@ -3,6 +3,12 @@
 ## master (unreleased)
 
 * Added relation helper methods `has_one`, `has_many`, `belongs_to` ([#49](https://github.com/petalmd/bright_serializer/pull/49))
+* Add instrumentation. ([#90](https://github.com/petalmd/bright_serializer/pull/90))
+
+## 0.3.1 (2022-09-28)
+
+* Performance improvements, use nil instead of empty set. ([#97](https://github.com/petalmd/bright_serializer/pull/97))
+* Move specs out of lib. ([#96](https://github.com/petalmd/bright_serializer/pull/96))
 
 ## 0.3.0 (2022-05-26)
 

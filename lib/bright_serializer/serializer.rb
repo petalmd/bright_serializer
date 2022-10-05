@@ -6,9 +6,12 @@ require_relative 'attribute'
 require_relative 'attribute_relation'
 require_relative 'inflector'
 require_relative 'entity/base'
+require_relative 'extensions'
 
 module BrightSerializer
   module Serializer
+    include Extensions
+
     SUPPORTED_TRANSFORMATION = %i[camel camel_lower dash underscore].freeze
     DEFAULT_OJ_OPTIONS = { mode: :compat, time_format: :ruby, use_to_json: true }.freeze
 
@@ -21,12 +24,14 @@ module BrightSerializer
     def initialize(object, **options)
       @object = object
       @params = options.delete(:params)
-      @fields = Set.new(options.delete(:fields))
+
+      fields = options.delete(:fields)
+      @fields = fields ? Set.new(fields) : nil
     end
 
     def serialize(object)
       self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
-        next if @fields.any? && !@fields.include?(attribute.key)
+        next if !@fields.nil? && !@fields.include?(attribute.key)
         next unless attribute.condition?(object, @params)
 
         result[attribute.transformed_key] = attribute.serialize(self, object, @params)
