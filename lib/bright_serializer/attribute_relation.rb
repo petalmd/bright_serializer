@@ -2,23 +2,26 @@
 
 module BrightSerializer
   class AttributeRelation < Attribute
-    def initialize(key, class_name, params, condition, entity, &block)
-      @class_name = class_name
+    def initialize(key, serializer, params, condition, entity, &block)
+      @serializer = serializer
       @params = params || {}
 
       super(key, condition, entity, &block)
     end
 
-    def serialize(_serializer_instance, object, params)
-      relation = object.is_a?(Hash) ? object[key] : object.public_send(key)
+    def serialize(serializer_instance, object, params)
+      return unless object
+
       merged_params = (params || {}).merge(@params)
-      class_serializer.new(relation, params: merged_params).serializable_hash
+      value = attribute_value(serializer_instance, object, merged_params)
+
+      class_serializer.new(value, params: merged_params).serializable_hash
     end
 
     private
 
     def class_serializer
-      @class_serializer ||= @class_name.is_a?(String) ? Inflector.constantize(@class_name) : @class_name
+      @class_serializer ||= @serializer.is_a?(String) ? Inflector.constantize(@serializer) : @serializer
     end
   end
 end

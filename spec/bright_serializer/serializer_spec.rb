@@ -184,17 +184,18 @@ RSpec.describe BrightSerializer::Serializer do
       Class.new do
         include BrightSerializer::Serializer
         attributes :first_name, :last_name
-        has_many :friends, class_name: 'FriendSerializer'
-        has_one :best_friend, class_name: 'FriendSerializer'
-        has_one :second_best_friend, class_name: 'FriendSerializer', if: proc { false }
-        belongs_to :third_best_friend, class_name: 'FriendSerializer', params: { prefix: 'Mr ' }
+        has_many :friends, serializer: 'FriendSerializer'
+        has_one(:best_friend, serializer: 'FriendSerializer') { |object| object.friends.first }
+        has_one(:best_friend2, serializer: 'FriendSerializer', &:best_friend)
+        has_one :second_best_friend, serializer: 'FriendSerializer', if: proc { false }
+        belongs_to :third_best_friend, serializer: 'FriendSerializer', params: { prefix: 'Mr ' }
       end
     end
 
     let(:user) do
       user = User.new
       def user.best_friend
-        @best_friend ||= User.new
+        friends.first
       end
 
       def user.third_best_friend
@@ -213,6 +214,7 @@ RSpec.describe BrightSerializer::Serializer do
           { first_name: user.friends[1].first_name }
         ],
         best_friend: { first_name: user.best_friend.first_name },
+        best_friend2: { first_name: user.best_friend.first_name },
         third_best_friend: {
           first_name: user.third_best_friend.first_name,
           last_name: "Mr #{user.third_best_friend.last_name}"

@@ -111,7 +111,7 @@ AccountSerializer.new(Account.first, fields: [:first_name, :last_name]).to_json
 `has_one`, `has_many` and `belongs_to` helper methods can be use to use an other
 serializer for a nested attribute.
 
-* A `class_name` must be provided.
+* A `serializer` must be provided.
 * The option `params` can be passed. It will be merged with the root `params`.
 * The option `if` can be pass like any other attribute. 
 
@@ -125,7 +125,7 @@ class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
 
-  has_many :friends, class_name: 'FriendSerializer'
+  has_many :friends, serializer: 'FriendSerializer'
 end
 ```
 
