@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Add instrumentation. ([#90](https://github.com/petalmd/bright_serializer/pull/90))
+
 ## 0.3.1 (2022-09-28)
 
 * Performance improvements, use nil instead of empty set. ([#97](https://github.com/petalmd/bright_serializer/pull/97))
