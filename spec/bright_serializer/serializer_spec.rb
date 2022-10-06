@@ -46,19 +46,22 @@ RSpec.describe BrightSerializer::Serializer do
 
     context 'when multiple element to serialize' do
       let(:users) { [User.new, User.new] }
+      let(:user) { users }
 
       let(:result) do
         users.map do |user|
           {
             first_name: user.first_name,
             last_name: user.last_name,
-            name: "#{user.first_name} #{user.last_name}"
+            name: "#{user.first_name} #{user.last_name}",
+            name_to_s: "User: #{user.first_name} #{user.last_name}",
+            first: user.first_name
           }
         end
+      end
 
-        it 'serialize an array of hash' do
-          expect(instance.to_hash).to eq(result)
-        end
+      it 'serialize an array of hash' do
+        expect(instance.to_hash).to eq(result)
       end
     end
 

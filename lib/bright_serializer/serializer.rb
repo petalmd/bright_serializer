@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'oj'
-require 'set'
 require_relative 'attribute'
 require_relative 'attribute_relation'
 require_relative 'inflector'
@@ -24,14 +23,11 @@ module BrightSerializer
     def initialize(object, **options)
       @object = object
       @params = options.delete(:params)
-
-      fields = options.delete(:fields)
-      @fields = fields ? Set.new(fields) : nil
+      @fields = options.delete(:fields)
     end
 
-    def serialize(object)
-      self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
-        next if !@fields.nil? && !@fields.include?(attribute.key)
+    def serialize(object, attributes_to_serialize)
+      attributes_to_serialize.each_with_object({}) do |attribute, result|
         next unless attribute.condition?(object, @params)
 
         result[attribute.transformed_key] = attribute.serialize(self, object, @params)
@@ -40,9 +36,9 @@ module BrightSerializer
 
     def serializable_hash
       if @object.respond_to?(:each) && !@object.respond_to?(:each_pair)
-        @object.map { |o| serialize o }
+        @object.map { |o| serialize(o, attributes_to_serialize) }
       else
-        serialize(@object)
+        serialize(@object, attributes_to_serialize)
       end
     end
 
@@ -85,7 +81,7 @@ module BrightSerializer
 
       def set_key_transform(transform_name) # rubocop:disable Naming/AccessorMethodName
         unless SUPPORTED_TRANSFORMATION.include?(transform_name)
-          raise ArgumentError "Invalid transformation: #{SUPPORTED_TRANSFORMATION}"
+          raise ArgumentError, "Invalid transformation: #{SUPPORTED_TRANSFORMATION}"
         end
 
         @transform_method = transform_name
@@ -111,6 +107,18 @@ module BrightSerializer
 
       def entity_name
         name.split('::').last.downcase
+      end
+    end
+
+    private
+
+    def attributes_to_serialize
+      if @fields.nil?
+        self.class.attributes_to_serialize
+      else
+        self.class.attributes_to_serialize.select do |field|
+          @fields.include?(field.key)
+        end
       end
     end
   end
