@@ -71,7 +71,7 @@ module BrightSerializer
 
       def set_key_transform(transform_name) # rubocop:disable Naming/AccessorMethodName
         unless SUPPORTED_TRANSFORMATION.include?(transform_name)
-          raise ArgumentError "Invalid transformation: #{SUPPORTED_TRANSFORMATION}"
+          raise ArgumentError, "Invalid transformation: #{SUPPORTED_TRANSFORMATION}"
         end
 
         @transform_method = transform_name
