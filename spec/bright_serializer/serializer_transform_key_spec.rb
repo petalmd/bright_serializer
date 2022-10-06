@@ -116,4 +116,16 @@ RSpec.describe BrightSerializer::Serializer do
       expect(instance.to_hash).to eq(result)
     end
   end
+
+  describe 'not supported transformation' do
+    it 'will raise an error' do
+      expect do
+        Class.new do
+          include BrightSerializer::Serializer
+
+          set_key_transform :unknown
+        end
+      end.to raise_error(ArgumentError)
+    end
+  end
 end
