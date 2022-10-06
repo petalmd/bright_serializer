@@ -44,7 +44,7 @@ RSpec.describe BrightSerializer::Serializer do
     end
 
     context 'when multiple element to serialize' do
-      let(:users) { p [User.new, User.new] }
+      let(:users) { [User.new, User.new] }
       let(:user) { users }
 
       let(:result) do
