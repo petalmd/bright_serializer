@@ -7,7 +7,7 @@ module BrightSerializer
     # options should only have `fields` left
     def initialize(key, serializer, condition, entity, options, &block)
       @serializer = serializer
-      @options = options
+      @options = options || {}
 
       super(key, condition, entity, &block)
     end
