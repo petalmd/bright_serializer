@@ -16,9 +16,7 @@ module BrightSerializer
       return unless object
 
       merged_params = nil
-      if params || @options[:params]
-        merged_params = (params || {}).merge(@options[:params] || {})
-      end
+      merged_params = (params || {}).merge(@options[:params] || {}) if params || @options[:params]
       value = attribute_value(serializer_instance, object, merged_params)
 
       class_serializer.new(value, params: merged_params, **@options).serializable_hash
