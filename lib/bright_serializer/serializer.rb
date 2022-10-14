@@ -71,7 +71,9 @@ module BrightSerializer
       alias attribute attributes
 
       def has_one(key, serializer:, **options, &block) # rubocop:disable Naming/PredicateName
-        attribute = AttributeRelation.new(key, serializer, options[:params], options[:if], options[:entity], &block)
+        attribute = AttributeRelation.new(
+          key, serializer, options.delete(:if), options.delete(:entity), options, &block
+        )
         attribute.transformed_key = run_transform_key(key)
         @attributes_to_serialize << attribute
       end

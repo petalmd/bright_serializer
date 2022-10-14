@@ -74,7 +74,7 @@ class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
 
-  attribute :email, if: -> { |object, params| params[:current_user].is_admin? }
+  attribute :email, if: proc { |object, params| params[:current_user].is_admin? }
 end
 ```
 
@@ -109,11 +109,17 @@ AccountSerializer.new(Account.first, fields: [:first_name, :last_name]).to_json
 ### Relations
 
 `has_one`, `has_many` and `belongs_to` helper methods can be use to use an other
-serializer for a nested attribute.
+serializer for nested attribute and relations.
 
-* A `serializer` must be provided.
+When using theses methods you can pass options that will be apply like any other attribute.
+
+* The option `if` can be pass to show or hide the hole attribute.
+* The option `entity` to 
+
+* The `serializer` option must be provided.
 * The option `params` can be passed. It will be merged with the root `params`.
-* The option `if` can be pass like any other attribute. 
+* The option `if` can be pass like any other attribute.
+* A block can be passed to change the method to call on the object.
 
 ```ruby
 class FriendSerializer
@@ -126,6 +132,10 @@ class AccountSerializer
   attributes :id, :first_name, :last_name
 
   has_many :friends, serializer: 'FriendSerializer'
+  has_one :best_friend, serializer: 'FriendSerializer' do |object, params|
+    object.friends.detect { |friend| friend.id == params[:current_user].best_friend_id }
+  end
+  belongs_to :best_friend_of, serializer: 'FriendSerializer', if: proc { |_object, params| params[:current_user].best_friend_of_id }
 end
 ```
 

@@ -2,9 +2,12 @@
 
 module BrightSerializer
   class AttributeRelation < Attribute
-    def initialize(key, serializer, params, condition, entity, &block)
+    ##
+    # Just like attributes: fields, entity, if, params
+    # options should only have `fields` left
+    def initialize(key, serializer, condition, entity, options, &block)
       @serializer = serializer
-      @params = params || {}
+      @options = options
 
       super(key, condition, entity, &block)
     end
@@ -12,10 +15,13 @@ module BrightSerializer
     def serialize(serializer_instance, object, params)
       return unless object
 
-      merged_params = (params || {}).merge(@params)
+      merged_params = nil
+      if params || @options[:params]
+        merged_params = (params || {}).merge(@options[:params] || {})
+      end
       value = attribute_value(serializer_instance, object, merged_params)
 
-      class_serializer.new(value, params: merged_params).serializable_hash
+      class_serializer.new(value, params: merged_params, **@options).serializable_hash
     end
 
     private
