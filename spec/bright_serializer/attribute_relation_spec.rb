@@ -37,4 +37,64 @@ RSpec.describe BrightSerializer::AttributeRelation do
       end
     end
   end
+
+  describe 'entity' do
+    subject { instance.entity }
+
+    let(:instance) { described_class.new(:key, 'SomeClassSerializer', nil, entity_options, nil) }
+
+    context 'when type is object' do
+      let(:entity_options) { { type: :object } }
+
+      it 'add ref' do
+        expect(BrightSerializer::Entity::Base).to receive(:new).with({ type: :object, ref: 'SomeClassSerializer' })
+        instance
+      end
+
+      context 'when ref is already present' do
+        let(:entity_options) { { type: :object, ref: 'DoesntOverwriteThisOne' } }
+
+        it 'doesnt add ref' do
+          expect(BrightSerializer::Entity::Base).to receive(:new).with({ type: :object, ref: 'DoesntOverwriteThisOne' })
+          instance
+        end
+      end
+    end
+
+    context 'when type is array' do
+      let(:entity_options) { { type: :array } }
+
+      it 'add ref' do
+        expect(BrightSerializer::Entity::Base).to receive(:new).with({ type: :array, items: { ref: 'SomeClassSerializer' } })
+        instance
+      end
+
+      context 'when ref already set' do
+        let(:entity_options) { { type: :array, items: { ref: 'DoesntOverwriteThisOne' } } }
+
+        it 'doesnt add ref' do
+          expect(BrightSerializer::Entity::Base).to receive(:new).with({ type: :array, items: { ref: 'DoesntOverwriteThisOne' } })
+          instance
+        end
+      end
+    end
+
+    context 'when type is something else' do
+      let(:entity_options) { { type: :string } }
+
+      it 'doesnt add ref' do
+        expect(BrightSerializer::Entity::Base).to receive(:new).with(entity_options)
+        instance
+      end
+    end
+
+    context 'when entity is nil' do
+      let(:entity_options) { nil }
+
+      it 'doesnt call Entity::Base.new ' do
+        expect(BrightSerializer::Entity::Base).to_not receive(:new)
+        instance
+      end
+    end
+  end
 end

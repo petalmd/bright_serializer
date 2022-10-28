@@ -166,12 +166,10 @@ class AccountSerializer
   attribute :id, entity: { type: :string, description: 'The id of the account' }
   attribute :name
 
-  attribute :friends,
+  has_many :friends, serializer: 'FriendSerializer',
     entity: {
-      type: :array, items: { ref: 'FriendSerializer' }, description: 'The list the account friends.'
-     } do |object|
-    FriendSerializer.new(object.friends)
-  end
+      type: :array, description: 'The list the account friends.'
+     }
 end
 ```
 
@@ -179,6 +177,13 @@ Callable values are supported.
 
 ```ruby
 { entity: { type: :string, enum: -> { SomeModel::ENUMVALUES } } }
+```
+
+For relations only `type` need to be defined, `ref` will use the same class has `serializer`.
+
+```ruby
+has_many :friends, serializer: 'FriendSerializer', entity: { type: :array }
+has_one :best_friend, serializer: 'FriendSerializer', entity: { type: :object }
 ```
 
 ### Instance
