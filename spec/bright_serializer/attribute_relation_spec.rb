@@ -20,7 +20,7 @@ RSpec.describe BrightSerializer::AttributeRelation do
       let(:serializer_argument) { 'SomeClassSerializer' }
 
       it 'call constantize' do
-        expect(Inflector).to receive(:constantize).with(serializer_argument).and_return(serializer_class_stub)
+        expect(Inflector).to receive(:constantize).with(serializer_argument).and_return(serializer_class_stub) # rubocop:disable RSpec/StubbedMock
         instance.serialize(nil, '', nil)
       end
     end
@@ -65,7 +65,9 @@ RSpec.describe BrightSerializer::AttributeRelation do
       let(:entity_options) { { type: :array } }
 
       it 'add ref' do
-        expect(BrightSerializer::Entity::Base).to receive(:new).with({ type: :array, items: { ref: 'SomeClassSerializer' } })
+        expect(BrightSerializer::Entity::Base).to(
+          receive(:new).with({ type: :array, items: { ref: 'SomeClassSerializer' } })
+        )
         instance
       end
 
@@ -73,7 +75,9 @@ RSpec.describe BrightSerializer::AttributeRelation do
         let(:entity_options) { { type: :array, items: { ref: 'DoesntOverwriteThisOne' } } }
 
         it 'doesnt add ref' do
-          expect(BrightSerializer::Entity::Base).to receive(:new).with({ type: :array, items: { ref: 'DoesntOverwriteThisOne' } })
+          expect(BrightSerializer::Entity::Base).to(
+            receive(:new).with({ type: :array, items: { ref: 'DoesntOverwriteThisOne' } })
+          )
           instance
         end
       end
@@ -92,7 +96,7 @@ RSpec.describe BrightSerializer::AttributeRelation do
       let(:entity_options) { nil }
 
       it 'doesnt call Entity::Base.new ' do
-        expect(BrightSerializer::Entity::Base).to_not receive(:new)
+        expect(BrightSerializer::Entity::Base).not_to receive(:new)
         instance
       end
     end
