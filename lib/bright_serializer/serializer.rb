@@ -36,9 +36,9 @@ module BrightSerializer
 
     def serializable_hash
       if @object.respond_to?(:each) && !@object.respond_to?(:each_pair)
-        @object.map { |o| serialize(o, attributes_to_serialize) }
+        @object.map { |o| serialize(o, instance_attributes_to_serialize) }
       else
-        serialize(@object, attributes_to_serialize)
+        serialize(@object, instance_attributes_to_serialize)
       end
     end
 
@@ -114,14 +114,15 @@ module BrightSerializer
 
     private
 
-    def attributes_to_serialize
-      if @fields.nil?
-        self.class.attributes_to_serialize
-      else
-        self.class.attributes_to_serialize.select do |field|
-          @fields.include?(field.key)
+    def instance_attributes_to_serialize
+      @instance_attributes_to_serialize ||=
+        if @fields.nil?
+          self.class.attributes_to_serialize
+        else
+          self.class.attributes_to_serialize.select do |field|
+            @fields.include?(field.key)
+          end
         end
-      end
     end
   end
 end
