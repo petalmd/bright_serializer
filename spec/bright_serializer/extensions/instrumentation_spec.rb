@@ -26,7 +26,7 @@ RSpec.describe BrightSerializer::Extensions::Instrumentation do
     it 'call instrument' do
       serializer_class.new({}).serializable_hash
       expect(ActiveSupport::Notifications).to(
-        received(:instrument)
+        have_received(:instrument)
           .with('render.bright_serializer.serializable_hash', serializer: serializer_class.name)
       )
     end
@@ -34,7 +34,7 @@ RSpec.describe BrightSerializer::Extensions::Instrumentation do
     it 'call instrument with to_hash alias' do
       serializer_class.new({}).to_hash
       expect(ActiveSupport::Notifications).to(
-        received(:instrument)
+        have_received(:instrument)
           .with('render.bright_serializer.serializable_hash', serializer: serializer_class.name)
       )
     end
@@ -44,7 +44,7 @@ RSpec.describe BrightSerializer::Extensions::Instrumentation do
     it 'call instrument' do
       serializer_class.new({}).serializable_json
       expect(ActiveSupport::Notifications).to(
-        received(:instrument)
+        have_received(:instrument)
           .with('render.bright_serializer.serializable_json', serializer: serializer_class.name)
       )
     end
@@ -52,7 +52,7 @@ RSpec.describe BrightSerializer::Extensions::Instrumentation do
     it 'call instrument with to_json alias' do
       serializer_class.new({}).to_json
       expect(ActiveSupport::Notifications).to(
-        received(:instrument)
+        have_received(:instrument)
           .with('render.bright_serializer.serializable_json', serializer: serializer_class.name)
       )
     end

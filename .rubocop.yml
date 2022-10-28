@@ -42,6 +42,3 @@ Metrics/ParameterLists:
 
 RSpec/NestedGroups:
   Enabled: false
-
-RSpec/MessageSpies:
-  EnforcedStyle: receive
