@@ -113,13 +113,13 @@ serializer for nested attributes and relations.
 
 * The `serializer` option must be provided.
 
-When using theses methods you can pass options that will be apply like any other attribute.
+When using theses methods you can pass options that will be apply like any other attributes.
 
-* The option `if` can be pass to show or hide the attribute.
+* The option `if` can be pass to show or hide the relation.
 * The option `entity` to generate API documentation.
 * The option `fields` to only serializer some attributes of the nested object.
 * The option `params` can be passed, it will be merged with the parent params.
-* A block can be passed to change the method to call on the object.
+* A block can be passed and the return value will be serialized with the `serializer` passed.
 
 ```ruby
 class FriendSerializer
@@ -132,11 +132,26 @@ class AccountSerializer
   attributes :id, :first_name, :last_name
 
   has_many :friends, serializer: 'FriendSerializer'
-  has_one :best_friend, serializer: 'FriendSerializer' do |object, params|
-    object.friends.detect { |friend| friend.id == params[:current_user].best_friend_id }
-  end
-  belongs_to :best_friend_of, serializer: 'FriendSerializer', if: proc { |object, params| params[:current_user].best_friend_of_id == object.best_friend_id }
 end
+```
+
+```ruby
+# Block
+has_one :best_friend, serializer: 'FriendSerializer' do |object, params|
+ # ...
+end
+
+# If
+belongs_to :best_friend_of, serializer: 'FriendSerializer', if: proc { |object, params| '...' }
+
+# Fields
+has_one :best_friend, serializer: 'FriendSerializer', fields: [:first_name, :last_name]
+
+# Params
+has_one :best_friend, serializer: 'FriendSerializer', params: { static_param: true }
+
+# Entity
+has_one :best_friend, serializer: 'FriendSerializer', entity: { description: '...' }
 ```
 
 ### Entity
@@ -159,6 +174,7 @@ class AccountSerializer
   end
 end
 ```
+
 Callable values are supported.
 
 ```ruby
