@@ -5,7 +5,8 @@ require:
 AllCops:
   NewCops: enable
   Exclude:
-    - benchmarks/*
+    - benchmarks/**/*.rb
+    - vendor/bundle/**/*
 
 Metrics/BlockLength:
   Enabled: false
