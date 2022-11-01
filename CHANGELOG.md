@@ -2,6 +2,7 @@
 
 ## master (unreleased)
 
+* Performance improvements, save in instance attributes to serialize. ([#100](https://github.com/petalmd/bright_serializer/pull/100))
 * Performance improvements, calculate attributes to serialize only once. ([#98](https://github.com/petalmd/bright_serializer/pull/98))
 * Add instrumentation. ([#90](https://github.com/petalmd/bright_serializer/pull/90))
 
