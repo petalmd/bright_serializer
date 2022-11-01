@@ -2,9 +2,6 @@
 
 module BrightSerializer
   class AttributeRelation < Attribute
-    ##
-    # Just like attributes: fields, entity, if, params
-    # options should only have `fields` left
     def initialize(key, serializer, condition, entity, options, &block)
       @serializer = serializer
       @options = options || {}
