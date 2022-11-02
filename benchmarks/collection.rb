@@ -460,6 +460,7 @@ require_relative 'graph'
 
 GraphGenerator.new(iterations, graph_data).generate_ips
 
+
 # require 'benchmark/memory'
 # Benchmark.memory do |x|
 #   x.report(:alba, &alba)
