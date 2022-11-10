@@ -10,7 +10,6 @@ gemspec
 gem 'oj', require: false
 
 group :test do
-  gem 'activesupport', '~> 5.0', require: false
   gem 'coveralls_reborn', require: false
   gem 'faker'
   gem 'rubocop'
