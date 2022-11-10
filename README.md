@@ -74,7 +74,7 @@ class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
 
-  attribute :email, if: -> { |object, params| params[:current_user].is_admin? }
+  attribute :email, if: proc { |object, params| params[:current_user].is_admin? }
 end
 ```
 
@@ -108,7 +108,18 @@ AccountSerializer.new(Account.first, fields: [:first_name, :last_name]).to_json
 
 ### Relations
 
-For now, relations or declared like any other attribute.
+`has_one`, `has_many` and `belongs_to` helper methods can be use to use an other
+serializer for nested attributes and relations.
+
+* The `serializer` option must be provided.
+
+When using theses methods you can pass options that will be apply like any other attributes.
+
+* The option `if` can be pass to show or hide the relation.
+* The option `entity` to generate API documentation.
+* The option `fields` to only serializer some attributes of the nested object.
+* The option `params` can be passed, it will be merged with the parent params.
+* A block can be passed and the return value will be serialized with the `serializer` passed.
 
 ```ruby
 class FriendSerializer
@@ -120,10 +131,27 @@ class AccountSerializer
   include BrightSerializer::Serializer
   attributes :id, :first_name, :last_name
 
-  attribute :friends do |object|
-    FriendSerializer.new(object.friends)
-  end
+  has_many :friends, serializer: 'FriendSerializer'
 end
+```
+
+```ruby
+# Block
+has_one :best_friend, serializer: 'FriendSerializer' do |object, params|
+ # ...
+end
+
+# If
+belongs_to :best_friend_of, serializer: 'FriendSerializer', if: proc { |object, params| '...' }
+
+# Fields
+has_one :best_friend, serializer: 'FriendSerializer', fields: [:first_name, :last_name]
+
+# Params
+has_one :best_friend, serializer: 'FriendSerializer', params: { static_param: true }
+
+# Entity
+has_one :best_friend, serializer: 'FriendSerializer', entity: { description: '...' }
 ```
 
 ### Entity
@@ -138,19 +166,24 @@ class AccountSerializer
   attribute :id, entity: { type: :string, description: 'The id of the account' }
   attribute :name
 
-  attribute :friends,
+  has_many :friends, serializer: 'FriendSerializer',
     entity: {
-      type: :array, items: { ref: 'FriendSerializer' }, description: 'The list the account friends.'
-     } do |object|
-    FriendSerializer.new(object.friends)
-  end
+      type: :array, description: 'The list the account friends.'
+     }
 end
-
 ```
+
 Callable values are supported.
 
 ```ruby
 { entity: { type: :string, enum: -> { SomeModel::ENUMVALUES } } }
+```
+
+For relations only `type` need to be defined, `ref` will use the same class has `serializer`.
+
+```ruby
+has_many :friends, serializer: 'FriendSerializer', entity: { type: :array }
+has_one :best_friend, serializer: 'FriendSerializer', entity: { type: :object }
 ```
 
 ### Instance

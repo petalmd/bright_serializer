@@ -2,6 +2,7 @@
 
 require 'oj'
 require_relative 'attribute'
+require_relative 'attribute_relation'
 require_relative 'inflector'
 require_relative 'entity/base'
 require_relative 'extensions'
@@ -68,6 +69,17 @@ module BrightSerializer
       end
 
       alias attribute attributes
+
+      def has_one(key, serializer:, **options, &block) # rubocop:disable Naming/PredicateName
+        attribute = AttributeRelation.new(
+          key, serializer, options.delete(:if), options.delete(:entity), options, &block
+        )
+        attribute.transformed_key = run_transform_key(key)
+        @attributes_to_serialize << attribute
+      end
+
+      alias has_many has_one
+      alias belongs_to has_one
 
       def set_key_transform(transform_name) # rubocop:disable Naming/AccessorMethodName
         unless SUPPORTED_TRANSFORMATION.include?(transform_name)

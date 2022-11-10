@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../share/user'
+require_relative '../share/serializers'
 
 RSpec.describe BrightSerializer::Serializer do
   describe '#serialize' do
@@ -177,6 +178,199 @@ RSpec.describe BrightSerializer::Serializer do
 
       it 'serialize all 3 attributes' do
         expect(child_class.new(user).to_hash).to eq(result)
+      end
+    end
+  end
+
+  describe '#has_one' do
+    let(:serializer_class) do
+      Class.new do
+        include BrightSerializer::Serializer
+        attributes :first_name, :last_name
+        has_many :friends, serializer: 'FriendSerializer'
+      end
+    end
+    let(:user) do
+      user = User.new
+      def user.best_friend
+        friends.first
+      end
+      user.friends = [User.new, User.new]
+      user
+    end
+    let(:expected_result) do
+      {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        friends: [
+          { first_name: user.friends[0].first_name, last_name: user.friends[0].last_name },
+          { first_name: user.friends[1].first_name, last_name: user.friends[1].last_name }
+        ]
+      }
+    end
+
+    let(:friend_serializer) do
+      # FriendSerializer
+      Class.new do
+        include BrightSerializer::Serializer
+        attributes :first_name, :last_name
+      end
+    end
+
+    before do
+      allow_any_instance_of(BrightSerializer::AttributeRelation).to( # rubocop:disable  RSpec/AnyInstance
+        receive(:class_serializer).and_return(friend_serializer)
+      )
+    end
+
+    it 'serializer has_many friends' do
+      expect(serializer_class.new(user).serializable_hash).to eq expected_result
+    end
+
+    describe 'aliases' do
+      let(:expected_result) do
+        {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          best_friend: { first_name: user.friends[0].first_name, last_name: user.friends[0].last_name }
+        }
+      end
+
+      context 'when belongs_to alias' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+            belongs_to :best_friend, serializer: 'FriendSerializer' do |object|
+              object.friends.first
+            end
+          end
+        end
+
+        it 'serializer belongs_to best_friends' do
+          expect(serializer_class.new(user).serializable_hash).to eq expected_result
+        end
+      end
+
+      context 'when has_one alias' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+            has_one :best_friend, serializer: 'FriendSerializer' do |object|
+              object.friends.first
+            end
+          end
+        end
+
+        it 'serializer belongs_to best_friends' do
+          expect(serializer_class.new(user).serializable_hash).to eq expected_result
+        end
+      end
+    end
+
+    describe 'condition' do
+      context 'when true' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+            has_many :friends, serializer: 'FriendSerializer', if: ->(_object, _params) { true }
+          end
+        end
+
+        it 'serializer has_many friends' do
+          expect(serializer_class.new(user).serializable_hash).to eq expected_result
+        end
+      end
+
+      context 'when false' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+            has_many :friends, serializer: 'FriendSerializer', if: ->(_object, _params) { false }
+          end
+        end
+
+        let(:expected_result) do
+          {
+            first_name: user.first_name,
+            last_name: user.last_name
+          }
+        end
+
+        it 'serializer has_many friends' do
+          expect(serializer_class.new(user).serializable_hash).to eq expected_result
+        end
+      end
+    end
+
+    describe 'fields' do
+      let(:serializer_class) do
+        Class.new do
+          include BrightSerializer::Serializer
+          attributes :first_name, :last_name
+          has_many :friends, serializer: 'FriendSerializer', fields: [:first_name]
+        end
+      end
+
+      let(:expected_result) do
+        {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          friends: [
+            { first_name: user.friends[0].first_name },
+            { first_name: user.friends[1].first_name }
+          ]
+        }
+      end
+
+      it 'serializer has_many friends' do
+        expect(serializer_class.new(user).serializable_hash).to eq expected_result
+      end
+    end
+
+    describe 'params' do
+      let(:expected_result) do
+        {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          friends: [
+            { first_name: user.friends[0].first_name, last_name: "Mr #{user.friends[0].last_name}" },
+            { first_name: user.friends[1].first_name, last_name: "Mr #{user.friends[1].last_name}" }
+          ]
+        }
+      end
+      let(:friend_serializer) do
+        # FriendSerializer
+        Class.new do
+          include BrightSerializer::Serializer
+          attributes :first_name
+          attribute :last_name do |object, params|
+            "#{params[:prefix]} #{object.last_name}"
+          end
+        end
+      end
+
+      context 'when params comes from parent serializer instance' do
+        it 'serializer has_many friends' do
+          expect(serializer_class.new(user, params: { prefix: 'Mr' }).serializable_hash).to eq expected_result
+        end
+      end
+
+      context 'when params comes from inside parent serializer' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+            has_many :friends, serializer: 'FriendSerializer', params: { prefix: 'Mr' }
+          end
+        end
+
+        it 'serializer has_many friends' do
+          expect(serializer_class.new(user).serializable_hash).to eq expected_result
+        end
       end
     end
   end

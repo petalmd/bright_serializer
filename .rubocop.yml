@@ -4,6 +4,8 @@ require:
 
 AllCops:
   NewCops: enable
+  DisplayStyleGuide: true # Include styleguide and reference URLs
+  ExtraDetails: true # Include cop details
 
 Metrics/BlockLength:
   Enabled: false
@@ -34,6 +36,9 @@ Metrics/CyclomaticComplexity:
 
 Metrics/AbcSize:
   Enabled: false
+
+Metrics/ParameterLists:
+  Max: 6
 
 RSpec/NestedGroups:
   Enabled: false
