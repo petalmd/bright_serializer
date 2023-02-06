@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Return nil when element to serialize is nil ([#105](https://github.com/petalmd/bright_serializer/pull/105))
+
 ## 0.4.0 (2022-11-10)
 
 * Added relation helper methods `has_one`, `has_many`, `belongs_to` ([#49](https://github.com/petalmd/bright_serializer/pull/49))

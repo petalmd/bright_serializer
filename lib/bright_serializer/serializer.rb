@@ -27,6 +27,8 @@ module BrightSerializer
     end
 
     def serialize(object, attributes_to_serialize)
+      return nil if @object.nil?
+
       attributes_to_serialize.each_with_object({}) do |attribute, result|
         next unless attribute.condition?(object, @params)
 
@@ -35,8 +37,6 @@ module BrightSerializer
     end
 
     def serializable_hash
-      return nil if @object.nil?
-
       if @object.respond_to?(:each) && !@object.respond_to?(:each_pair)
         @object.map { |o| serialize(o, instance_attributes_to_serialize) }
       else
