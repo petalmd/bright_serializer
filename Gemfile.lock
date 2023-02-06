@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bright_serializer (0.4.0)
+    bright_serializer (0.4.1)
       oj (~> 3)
 
 GEM
