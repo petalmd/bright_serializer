@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'bright_serializer/version'
+require_relative 'lib/bright_serializer/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'bright_serializer'
@@ -26,10 +26,6 @@ Gem::Specification.new do |spec|
   spec.extra_rdoc_files = %w[LICENSE.txt README.md]
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'oj', '~> 3'
-  spec.add_development_dependency 'activesupport', '~> 5.0'
-  spec.add_development_dependency 'bundler', '~> 2'
-  spec.add_development_dependency 'faker', '~> 2'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_dependency 'oj', '~> 3.0'
+  spec.add_development_dependency 'activesupport', '>= 5.2'
 end

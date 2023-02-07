@@ -12,3 +12,4 @@
 
 # IDE files
 .idea/
+Gemfile.lock

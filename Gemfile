@@ -2,14 +2,14 @@
 
 source 'https://rubygems.org'
 
-git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
-
 # Specify your gem's dependencies in bright_serializer.gemspec
 gemspec
 
 group :test do
   gem 'coveralls_reborn', require: false
   gem 'faker'
+  gem 'rake'
+  gem 'rspec'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rspec'

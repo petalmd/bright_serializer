@@ -6,6 +6,7 @@ AllCops:
   NewCops: enable
   DisplayStyleGuide: true # Include styleguide and reference URLs
   ExtraDetails: true # Include cop details
+  SuggestExtensions: false
 
 Metrics/BlockLength:
   Enabled: false
