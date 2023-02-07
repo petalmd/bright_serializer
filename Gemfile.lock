@@ -91,7 +91,6 @@ DEPENDENCIES
   bundler (~> 2)
   coveralls_reborn
   faker
-  oj
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop
