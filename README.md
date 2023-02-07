@@ -213,7 +213,7 @@ Event if the main goal is not performance, it has very good result.
 ruby benchmarks/collection.rb
 ```
 
-![Ips](benchmarks/ips.png)
+<img src="benchmarks/ips.png" width="400px">
 
 ## Development
 

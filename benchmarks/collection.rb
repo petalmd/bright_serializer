@@ -331,9 +331,7 @@ class BrightPostSerializer
 
   attributes :id, :body
   attribute :commenter_names
-  attribute :comments do |object|
-    BrightCommentSerializer.new(object.comments)
-  end
+  has_many :comments, serializer: 'BrightCommentSerializer'
 
   attribute :commenter_names do |object|
     object.commenters.map(&:name)
@@ -440,7 +438,7 @@ iterations.each do |n|
     x.report(:fast_serializer, &fast_serializer)
     x.report(:jbuilder, &jbuilder)
     # x.report(:jserializer, &jserializer)
-    x.report(:panko, &panko)
+    # x.report(:panko, &panko)
     # x.report(:primalize, &primalize)
     # x.report(:rails, &rails)
     # x.report(:representable, &representable)
