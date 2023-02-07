@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in bright_serializer.gemspec
 gemspec
 
-group :test do
+group :development do
   gem 'coveralls_reborn', require: false
   gem 'faker'
   gem 'rake'
