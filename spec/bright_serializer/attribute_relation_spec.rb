@@ -105,7 +105,7 @@ RSpec.describe BrightSerializer::AttributeRelation do
     context 'when entity is nil' do
       let(:entity_options) { nil }
 
-      it 'doesnt call Entity::Base.new ' do
+      it 'doesnt call Entity::Base.new' do
         instance
         expect(BrightSerializer::Entity::Base).not_to have_received(:new)
       end
