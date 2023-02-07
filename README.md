@@ -205,6 +205,16 @@ class AccountSerializer
 end
 ```
 
+## Benchmark
+
+Event if the main goal is not performance, it has very good result.
+
+```sh
+ruby benchmarks/collection.rb
+```
+
+<img src="benchmarks/ips.png" width="400px">
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

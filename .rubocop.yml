@@ -4,6 +4,9 @@ require:
 
 AllCops:
   NewCops: enable
+  Exclude:
+    - benchmarks/**/*.rb
+    - vendor/bundle/**/*
   DisplayStyleGuide: true # Include styleguide and reference URLs
   ExtraDetails: true # Include cop details
   SuggestExtensions: false
