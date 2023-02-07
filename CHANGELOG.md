@@ -3,6 +3,10 @@
 ## master (unreleased)
 
 * Added performance tests script and results. ([#99](https://github.com/petalmd/bright_serializer/pull/99))
+
+## 0.4.0 (2022-11-10)
+
+* Added relation helper methods `has_one`, `has_many`, `belongs_to` ([#49](https://github.com/petalmd/bright_serializer/pull/49))
 * Performance improvements, save in instance attributes to serialize. ([#100](https://github.com/petalmd/bright_serializer/pull/100))
 * Performance improvements, calculate attributes to serialize only once. ([#98](https://github.com/petalmd/bright_serializer/pull/98))
 * Add instrumentation. ([#90](https://github.com/petalmd/bright_serializer/pull/90))
