@@ -44,6 +44,14 @@ RSpec.describe BrightSerializer::Serializer do
       expect(instance.to_json).to eq(result.to_json)
     end
 
+    context 'when element to serialize is nil' do
+      let(:user) { nil }
+
+      it 'serialize to hash should be nil' do
+        expect(instance.to_hash).to be_nil
+      end
+    end
+
     context 'when multiple element to serialize' do
       let(:users) { [User.new, User.new] }
       let(:user) { users }
@@ -117,6 +125,28 @@ RSpec.describe BrightSerializer::Serializer do
 
         it 'serialize all 3 attributes' do
           expect(serializer_class.new(user_hash).to_hash).to eq(result)
+        end
+      end
+
+      context 'when element to serialize is empty hash' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+          end
+        end
+
+        let(:user) { {} }
+
+        let(:result) do
+          {
+            first_name: nil,
+            last_name: nil
+          }
+        end
+
+        it 'serialize to hash should be filled with nil' do
+          expect(instance.to_hash).to eq(result)
         end
       end
     end
@@ -225,6 +255,26 @@ RSpec.describe BrightSerializer::Serializer do
 
     it 'serializer has_many friends' do
       expect(serializer_class.new(user).serializable_hash).to eq expected_result
+    end
+
+    describe 'serialize nil from has_one' do
+      let(:user) do
+        user = User.new
+        user.friends = nil
+        user
+      end
+
+      let(:expected_result) do
+        {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          friends: nil
+        }
+      end
+
+      it 'serializer has_many friends with nil' do
+        expect(serializer_class.new(user).serializable_hash).to eq expected_result
+      end
     end
 
     describe 'aliases' do
