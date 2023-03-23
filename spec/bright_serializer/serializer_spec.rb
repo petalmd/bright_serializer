@@ -257,6 +257,26 @@ RSpec.describe BrightSerializer::Serializer do
       expect(serializer_class.new(user).serializable_hash).to eq expected_result
     end
 
+    describe 'serialize nil from has_one' do
+      let(:user) do
+        user = User.new
+        user.friends = nil
+        user
+      end
+
+      let(:expected_result) do
+        {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          friends: nil
+        }
+      end
+
+      it 'serializer has_many friends with nil' do
+        expect(serializer_class.new(user).serializable_hash).to eq expected_result
+      end
+    end
+
     describe 'aliases' do
       let(:expected_result) do
         {
