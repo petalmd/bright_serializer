@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../share/user'
+require_relative '../share/user'
 
 RSpec.describe BrightSerializer::Attribute do
   let(:object_to_serialize) { { first_name: Faker::Name.first_name, is_admin: false } }

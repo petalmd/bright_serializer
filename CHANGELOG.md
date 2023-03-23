@@ -2,6 +2,22 @@
 
 ## master (unreleased)
 
+* Return nil when element to serialize is nil ([#105](https://github.com/petalmd/bright_serializer/pull/105))
+
+## 0.4.0 (2022-11-10)
+
+* Added relation helper methods `has_one`, `has_many`, `belongs_to` ([#49](https://github.com/petalmd/bright_serializer/pull/49))
+* Performance improvements, save in instance attributes to serialize. ([#100](https://github.com/petalmd/bright_serializer/pull/100))
+* Performance improvements, calculate attributes to serialize only once. ([#98](https://github.com/petalmd/bright_serializer/pull/98))
+* Add instrumentation. ([#90](https://github.com/petalmd/bright_serializer/pull/90))
+
+## 0.3.1 (2022-09-28)
+
+* Performance improvements, use nil instead of empty set. ([#97](https://github.com/petalmd/bright_serializer/pull/97))
+* Move specs out of lib. ([#96](https://github.com/petalmd/bright_serializer/pull/96))
+
+## 0.3.0 (2022-05-26)
+
 * Allow to evaluate entity values with a callable lambda. ([#88](https://github.com/petalmd/bright_serializer/pull/88))
 * Fix `FrozenError (can't modify frozen Array)` when parsing entity. ([#83](https://github.com/petalmd/bright_serializer/pull/83))
 * Added the support to use instance methods from a serializer class in the library ([#85](https://github.com/petalmd/bright_serializer/pull/85))

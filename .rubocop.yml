@@ -4,6 +4,12 @@ require:
 
 AllCops:
   NewCops: enable
+  Exclude:
+    - benchmarks/**/*.rb
+    - vendor/bundle/**/*
+  DisplayStyleGuide: true # Include styleguide and reference URLs
+  ExtraDetails: true # Include cop details
+  SuggestExtensions: false
 
 Metrics/BlockLength:
   Enabled: false
@@ -34,6 +40,9 @@ Metrics/CyclomaticComplexity:
 
 Metrics/AbcSize:
   Enabled: false
+
+Metrics/ParameterLists:
+  Max: 6
 
 RSpec/NestedGroups:
   Enabled: false

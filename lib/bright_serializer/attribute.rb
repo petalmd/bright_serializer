@@ -17,18 +17,7 @@ module BrightSerializer
     def serialize(serializer_instance, object, params)
       return unless object
 
-      value =
-        if @block
-          if @block.arity.negative?
-            serializer_instance.instance_exec(object, &@block)
-          else
-            serializer_instance.instance_exec(object, params, &@block)
-          end
-        elsif object.is_a?(Hash)
-          object.key?(key) ? object[key] : object[key.to_s]
-        else
-          object.send(key)
-        end
+      value = attribute_value(serializer_instance, object, params)
 
       value.respond_to?(:serializable_hash) ? value.serializable_hash : value
     end
@@ -37,6 +26,22 @@ module BrightSerializer
       return true unless @condition
 
       @condition.call(object, params)
+    end
+
+    private
+
+    def attribute_value(serializer_instance, object, params)
+      if @block
+        if @block.arity.abs == 1
+          serializer_instance.instance_exec(object, &@block)
+        else
+          serializer_instance.instance_exec(object, params, &@block)
+        end
+      elsif object.is_a?(Hash)
+        object.key?(key) ? object[key] : object[key.to_s]
+      else
+        object.public_send(key)
+      end
     end
   end
 end

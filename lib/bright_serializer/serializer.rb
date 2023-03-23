@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 require 'oj'
-require 'set'
 require_relative 'attribute'
+require_relative 'attribute_relation'
 require_relative 'inflector'
 require_relative 'entity/base'
+require_relative 'extensions'
 
 module BrightSerializer
   module Serializer
+    include Extensions
+
     SUPPORTED_TRANSFORMATION = %i[camel camel_lower dash underscore].freeze
     DEFAULT_OJ_OPTIONS = { mode: :compat, time_format: :ruby, use_to_json: true }.freeze
 
@@ -20,12 +23,13 @@ module BrightSerializer
     def initialize(object, **options)
       @object = object
       @params = options.delete(:params)
-      @fields = Set.new(options.delete(:fields))
+      @fields = options.delete(:fields)
     end
 
-    def serialize(object)
-      self.class.attributes_to_serialize.each_with_object({}) do |attribute, result|
-        next if @fields.any? && !@fields.include?(attribute.key)
+    def serialize(object, attributes_to_serialize)
+      return nil if @object.nil?
+
+      attributes_to_serialize.each_with_object({}) do |attribute, result|
         next unless attribute.condition?(object, @params)
 
         result[attribute.transformed_key] = attribute.serialize(self, object, @params)
@@ -34,9 +38,9 @@ module BrightSerializer
 
     def serializable_hash
       if @object.respond_to?(:each) && !@object.respond_to?(:each_pair)
-        @object.map { |o| serialize o }
+        @object.map { |o| serialize(o, instance_attributes_to_serialize) }
       else
-        serialize(@object)
+        serialize(@object, instance_attributes_to_serialize)
       end
     end
 
@@ -68,9 +72,20 @@ module BrightSerializer
 
       alias attribute attributes
 
+      def has_one(key, serializer:, **options, &block) # rubocop:disable Naming/PredicateName
+        attribute = AttributeRelation.new(
+          key, serializer, options.delete(:if), options.delete(:entity), options, &block
+        )
+        attribute.transformed_key = run_transform_key(key)
+        @attributes_to_serialize << attribute
+      end
+
+      alias has_many has_one
+      alias belongs_to has_one
+
       def set_key_transform(transform_name) # rubocop:disable Naming/AccessorMethodName
         unless SUPPORTED_TRANSFORMATION.include?(transform_name)
-          raise ArgumentError "Invalid transformation: #{SUPPORTED_TRANSFORMATION}"
+          raise ArgumentError, "Invalid transformation: #{SUPPORTED_TRANSFORMATION}"
         end
 
         @transform_method = transform_name
@@ -97,6 +112,19 @@ module BrightSerializer
       def entity_name
         name.split('::').last.downcase
       end
+    end
+
+    private
+
+    def instance_attributes_to_serialize
+      @instance_attributes_to_serialize ||=
+        if @fields.nil?
+          self.class.attributes_to_serialize
+        else
+          self.class.attributes_to_serialize.select do |field|
+            @fields.include?(field.key)
+          end
+        end
     end
   end
 end
