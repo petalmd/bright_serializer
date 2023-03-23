@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Add active support dependencies and handle args and keyword ([#107](https://github.com/petalmd/bright_serializer/pull/107))
+* Return nil when element to serialize is nil ([#105](https://github.com/petalmd/bright_serializer/pull/105))
 
 ## 0.4.0 (2022-11-10)
 
