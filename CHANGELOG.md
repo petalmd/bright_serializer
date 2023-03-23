@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Add active support dependencies and handle args and keyword ([#107](https://github.com/petalmd/bright_serializer/pull/107))
+
 ## 0.4.0 (2022-11-10)
 
 * Added relation helper methods `has_one`, `has_many`, `belongs_to` ([#49](https://github.com/petalmd/bright_serializer/pull/49))
