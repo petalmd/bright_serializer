@@ -24,7 +24,7 @@ module BrightSerializer
         object = nested_hash(@definition, 'ref')
         return unless object
 
-        ref_entity_name = Inflector.constantize(object.delete('ref')).entity_name
+        ref_entity_name = object.delete('ref').constantize.entity_name
         relation = "#/definitions/#{ref_entity_name}"
         object['$ref'] = relation
       end

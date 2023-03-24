@@ -12,10 +12,6 @@ RSpec.describe BrightSerializer::Entity::Base do
     end
   end
 
-  before do
-    allow(Inflector).to receive(:constantize) { entity_class }
-  end
-
   describe '#to_h' do
     subject { instance.to_h }
 
@@ -42,6 +38,10 @@ RSpec.describe BrightSerializer::Entity::Base do
 
   describe '#parser_ref!' do
     subject { instance.to_h }
+
+    before do
+      stub_const('SomeModule::User', entity_class)
+    end
 
     let(:instance) { described_class.new(ref: 'SomeModule::User') }
 
