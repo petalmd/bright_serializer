@@ -32,7 +32,7 @@ module BrightSerializer
 
     def attribute_value(serializer_instance, object, params)
       if @block
-        if @block.arity.abs == 1
+        if @block.arity.negative?
           serializer_instance.instance_exec(object, &@block)
         else
           serializer_instance.instance_exec(object, params, &@block)
