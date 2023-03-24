@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+## 0.5.0 (2024-03-24)
+
 * Add active support dependencies and handle args and keyword ([#107](https://github.com/petalmd/bright_serializer/pull/107))
 * Add support and build for Ruby 3.X ([#91](https://github.com/petalmd/bright_serializer/pull/91))
 * Return nil when element to serialize is nil ([#105](https://github.com/petalmd/bright_serializer/pull/105))
