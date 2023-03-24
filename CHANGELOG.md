@@ -2,6 +2,7 @@
 
 ## master (unreleased)
 
+* Add support and build for Ruby 3.X ([#91](https://github.com/petalmd/bright_serializer/pull/91))
 * Return nil when element to serialize is nil ([#105](https://github.com/petalmd/bright_serializer/pull/105))
 
 ## 0.4.0 (2022-11-10)
