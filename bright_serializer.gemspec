@@ -26,6 +26,6 @@ Gem::Specification.new do |spec|
   spec.extra_rdoc_files = %w[LICENSE.txt README.md]
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'activesupport', '>= 5.2'
   spec.add_dependency 'oj', '~> 3.0'
-  spec.add_development_dependency 'activesupport', '>= 5.2'
 end

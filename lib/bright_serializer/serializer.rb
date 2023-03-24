@@ -62,8 +62,9 @@ module BrightSerializer
         subclass.instance_variable_set(:@transform_method, @transform_method) unless subclass.transform_method
       end
 
-      def attributes(*attributes, **options, &block)
-        attributes.each do |key|
+      def attributes(*args, &block)
+        options = args.extract_options!
+        args.each do |key|
           attribute = Attribute.new(key, options[:if], options[:entity], &block)
           attribute.transformed_key = run_transform_key(key)
           @attributes_to_serialize << attribute

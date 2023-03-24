@@ -16,16 +16,6 @@ RSpec.describe BrightSerializer::AttributeRelation do
       allow(instance).to receive(:attribute_value)
     end
 
-    context 'when a string' do
-      let(:serializer_argument) { 'SomeClassSerializer' }
-
-      it 'call constantize' do
-        allow(Inflector).to receive(:constantize).and_return(serializer_class_stub)
-        instance.serialize(nil, '', nil)
-        expect(Inflector).to have_received(:constantize).with(serializer_argument)
-      end
-    end
-
     context 'when constant' do
       let(:serializer_argument) do
         stub_const 'SomeClassSerializer', serializer_class_stub

@@ -23,7 +23,7 @@ module BrightSerializer
     private
 
     def class_serializer
-      @class_serializer ||= @serializer.is_a?(String) ? Inflector.constantize(@serializer) : @serializer
+      @class_serializer ||= @serializer.is_a?(String) ? @serializer.constantize : @serializer
     end
 
     def add_entity_ref!(entity)
