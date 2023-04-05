@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+## 0.5.1 (2024-04-05)
+
 * Better handle of ActiveSupport::Notifications defined? ([#111](https://github.com/petalmd/bright_serializer/pull/111))
 
 ## 0.5.0 (2024-03-24)
