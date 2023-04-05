@@ -12,7 +12,7 @@ RSpec.describe BrightSerializer::Extensions do
 
     context 'when ActiveSupport not defined' do
       before do
-        hide_const 'ActiveSupport'
+        hide_const 'ActiveSupport::Notifications'
       end
 
       it 'does not prepend instrumentation' do
@@ -20,9 +20,9 @@ RSpec.describe BrightSerializer::Extensions do
       end
     end
 
-    context 'when ActiveSupport is defined' do
+    context 'when ActiveSupport::Notifications is defined' do
       before do
-        stub_const 'ActiveSupport', true
+        stub_const 'ActiveSupport::Notifications', true
       end
 
       it 'prepend Instrumentation' do
