@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Better handle of ActiveSupport::Notifications defined? ([#111](https://github.com/petalmd/bright_serializer/pull/111))
+
 ## 0.5.0 (2024-03-24)
 
 * Add active support dependencies and handle args and keyword ([#107](https://github.com/petalmd/bright_serializer/pull/107))

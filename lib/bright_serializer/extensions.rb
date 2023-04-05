@@ -7,7 +7,7 @@ module BrightSerializer
     end
 
     def self.instrumentation_extension(base)
-      return unless defined? ActiveSupport
+      return unless defined? ActiveSupport::Notifications
 
       require_relative 'extensions/instrumentation'
       base.prepend Instrumentation
