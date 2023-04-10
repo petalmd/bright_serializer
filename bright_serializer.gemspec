@@ -37,7 +37,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'oj', '~> 3'
-  spec.add_development_dependency 'activesupport', '~> 5.0'
+  spec.add_dependency 'activesupport', '>= 5.2'
   spec.add_development_dependency 'bundler', '~> 2'
   spec.add_development_dependency 'faker', '~> 2'
   spec.add_development_dependency 'rake', '~> 13.0'

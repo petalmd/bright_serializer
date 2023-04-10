@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'oj'
+require 'active_support/deprecation'
 require_relative 'attribute'
 require_relative 'attribute_relation'
 require_relative 'inflector'
@@ -13,6 +14,11 @@ module BrightSerializer
 
     SUPPORTED_TRANSFORMATION = %i[camel camel_lower dash underscore].freeze
     DEFAULT_OJ_OPTIONS = { mode: :compat, time_format: :ruby, use_to_json: true }.freeze
+    DEPRECATION_MESSAGE = 'BrightSerializer: Serializing `nil` will stop returning ' \
+                  "a JSON with all attributes and null values.\n" \
+                  "To keep the old behaviour use an empty hash `MySerializer.new(object || { }).to_json`.\n" \
+                  "See: https://github.com/petalmd/bright_serializer/issues/103 for more details about this change.\n"
+    private_constant :DEPRECATION_MESSAGE
 
     def self.included(base)
       super
@@ -27,6 +33,8 @@ module BrightSerializer
     end
 
     def serialize(object, attributes_to_serialize)
+      ActiveSupport::Deprecation.warn(DEPRECATION_MESSAGE) if object.nil?
+
       attributes_to_serialize.each_with_object({}) do |attribute, result|
         next unless attribute.condition?(object, @params)
 

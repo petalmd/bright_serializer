@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    bright_serializer (0.4.0)
+    bright_serializer (0.4.1)
+      activesupport (>= 5.2)
       oj (~> 3)
 
 GEM
@@ -86,7 +87,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (~> 5.0)
   bright_serializer!
   bundler (~> 2)
   coveralls_reborn

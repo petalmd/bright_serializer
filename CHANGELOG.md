@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## 0.4.1 (2022-04-10)
+
+* Add deprecation warning for serialize nil object. See [issue #103](https://github.com/petalmd/bright_serializer/issues/103). ([v0.4.0...v0.4.1](https://github.com/petalmd/bright_serializer/compare/v0.4.0...v0.4.1))
+
 ## 0.4.0 (2022-11-10)
 
 * Added relation helper methods `has_one`, `has_many`, `belongs_to` ([#49](https://github.com/petalmd/bright_serializer/pull/49))
