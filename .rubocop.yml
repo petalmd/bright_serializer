@@ -46,3 +46,6 @@ Metrics/ParameterLists:
 
 RSpec/NestedGroups:
   Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
