@@ -205,6 +205,28 @@ class AccountSerializer
 end
 ```
 
+### Deprecations
+
+#### Serializing nil ([#103](https://github.com/petalmd/bright_serializer/issues/103))
+
+In version `v0.6.X` passing `nil` will raise a warning, and continue to serialize with the previous behavior. 
+
+```ruby
+MySerializer.new(nil).to_hash # => { id: nil, name: nil }
+```
+
+To use the future default behavior (`v0.7.X`), you can use the class option `serialize_nil_if_nil`.
+
+```ruby
+class MySerializer
+  include BrightSerializer::Serializer
+  serialize_nil_if_nil
+  # ...
+end
+
+MySerializer.new(nil).to_hash # => nil
+```
+
 ## Benchmark
 
 Event if the main goal is not performance, it has very good result.

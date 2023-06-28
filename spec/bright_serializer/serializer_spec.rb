@@ -8,6 +8,8 @@ RSpec.describe BrightSerializer::Serializer do
     let(:serializer_class) do
       Class.new do
         include BrightSerializer::Serializer
+        serialize_nil_if_nil
+
         attributes :first_name, :last_name
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
@@ -47,8 +49,42 @@ RSpec.describe BrightSerializer::Serializer do
     context 'when element to serialize is nil' do
       let(:user) { nil }
 
-      it 'serialize to hash should be nil' do
-        expect(instance.to_hash).to be_nil
+      before do
+        allow(BrightSerializer::Deprecation).to receive(:warn)
+      end
+
+      context 'when using serialize_nil_if_nil' do
+        it 'serialize to hash should be nil' do
+          expect(instance.to_hash).to be_nil
+          expect(BrightSerializer::Deprecation).not_to have_received(:warn)
+        end
+      end
+
+      context 'when not serialize_nil_if_nil' do
+        let(:serializer_class) do
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+            attribute :name do |object|
+              "#{object.first_name} #{object.last_name}"
+            end
+            attribute :name_to_s do |object|
+              add_mr(object)
+            end
+            attribute :first, &:first_name
+
+            def add_mr(object)
+              "User: #{object.first_name} #{object.last_name}"
+            end
+          end
+        end
+
+        it 'serialize to hash should return all attributes with nil' do
+          expect(instance.to_hash).to eq(
+            { first: nil, first_name: nil, last_name: nil, name: nil, name_to_s: nil }
+          )
+          expect(BrightSerializer::Deprecation).to have_received(:warn)
+        end
       end
     end
 
@@ -216,6 +252,7 @@ RSpec.describe BrightSerializer::Serializer do
     let(:serializer_class) do
       Class.new do
         include BrightSerializer::Serializer
+        serialize_nil_if_nil
         attributes :first_name, :last_name
         has_many :friends, serializer: 'FriendSerializer'
       end
@@ -243,6 +280,7 @@ RSpec.describe BrightSerializer::Serializer do
       # FriendSerializer
       Class.new do
         include BrightSerializer::Serializer
+        serialize_nil_if_nil
         attributes :first_name, :last_name
       end
     end
@@ -264,16 +302,46 @@ RSpec.describe BrightSerializer::Serializer do
         user
       end
 
-      let(:expected_result) do
-        {
-          first_name: user.first_name,
-          last_name: user.last_name,
-          friends: nil
-        }
+      before do
+        allow(BrightSerializer::Deprecation).to receive(:warn)
       end
 
-      it 'serializer has_many friends with nil' do
-        expect(serializer_class.new(user).serializable_hash).to eq expected_result
+      context 'when using serialize_nil_if_nil' do
+        let(:expected_result) do
+          {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            friends: nil
+          }
+        end
+
+        it 'serializer has_many friends with nil' do
+          expect(serializer_class.new(user).serializable_hash).to eq expected_result
+          expect(BrightSerializer::Deprecation).not_to have_received(:warn)
+        end
+      end
+
+      context 'when not using serialize_nil_if_nil' do
+        let(:friend_serializer) do
+          # FriendSerializer
+          Class.new do
+            include BrightSerializer::Serializer
+            attributes :first_name, :last_name
+          end
+        end
+
+        let(:expected_result) do
+          {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            friends: {:first_name=>nil, :last_name=>nil}
+          }
+        end
+
+        it 'serializer has_many friends with all attributes wil nil' do
+          expect(serializer_class.new(user).serializable_hash).to eq expected_result
+          expect(BrightSerializer::Deprecation).to have_received(:warn)
+        end
       end
     end
 
@@ -396,6 +464,7 @@ RSpec.describe BrightSerializer::Serializer do
         # FriendSerializer
         Class.new do
           include BrightSerializer::Serializer
+          serialize_nil_if_nil
           attributes :first_name
           attribute :last_name do |object, params|
             "#{params[:prefix]} #{object.last_name}"

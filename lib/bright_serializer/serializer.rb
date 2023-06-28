@@ -6,6 +6,7 @@ require_relative 'attribute_relation'
 require_relative 'inflector'
 require_relative 'entity/base'
 require_relative 'extensions'
+require_relative 'deprecation'
 
 module BrightSerializer
   module Serializer
@@ -27,7 +28,11 @@ module BrightSerializer
     end
 
     def serialize(object, attributes_to_serialize)
-      return nil if @object.nil?
+      if @object.nil?
+        return nil if self.class.serialize_nil
+
+        Deprecation.warn
+      end
 
       attributes_to_serialize.each_with_object({}) do |attribute, result|
         next unless attribute.condition?(object, @params)
@@ -53,7 +58,7 @@ module BrightSerializer
     alias to_json serializable_json
 
     module ClassMethods
-      attr_reader :attributes_to_serialize, :transform_method
+      attr_reader :attributes_to_serialize, :transform_method, :serialize_nil
 
       def inherited(subclass)
         super
@@ -90,6 +95,10 @@ module BrightSerializer
         end
 
         @transform_method = transform_name
+      end
+
+      def serialize_nil_if_nil
+        @serialize_nil = true
       end
 
       def run_transform_key(input)

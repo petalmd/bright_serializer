@@ -2,6 +2,9 @@
 
 ## master (unreleased)
 
+* Return to previous behaviour from `v0.4.X` (revert of [#105](https://github.com/petalmd/bright_serializer/pull/105)).
+    Add deprecation warn and class setting to use future behaviour. ([#X](https://github.com/petalmd/bright_serializer/pull/X))
+
 ## 0.5.1 (2024-04-05)
 
 * Better handle of ActiveSupport::Notifications defined? ([#111](https://github.com/petalmd/bright_serializer/pull/111))
