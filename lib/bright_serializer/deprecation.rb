@@ -3,9 +3,7 @@
 require 'active_support/deprecation'
 
 module BrightSerializer
-  class Deprecation
-    DEPRECATION_INSTANCE = ActiveSupport::Deprecation.new('0.7.0', 'BrightSerializer')
-    private_constant :DEPRECATION_INSTANCE
+  class Deprecation < ActiveSupport::Deprecation
     DEPRECATION_MESSAGE = 'BrightSerializer: Serializing `nil` will stop returning ' \
                           "a JSON with all attributes and null values.\n" \
                           "To use the new behaviour use the class level setting `serialize_nil_if_nil`.\n" \
@@ -15,8 +13,12 @@ module BrightSerializer
                           "for more details about this change.\n"
     private_constant :DEPRECATION_MESSAGE
 
-    def self.warn
-      DEPRECATION_INSTANCE.warn(DEPRECATION_MESSAGE)
+    def initialize
+      super('0.7.0', 'BrightSerializer')
+    end
+
+    def self.warn(klass)
+      instance.warn(DEPRECATION_MESSAGE + "Called from `#{klass}`.\n")
     end
   end
 end

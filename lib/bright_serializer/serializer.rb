@@ -31,7 +31,7 @@ module BrightSerializer
       if @object.nil?
         return nil if self.class.serialize_nil
 
-        Deprecation.warn
+        Deprecation.warn(self.class)
       end
 
       attributes_to_serialize.each_with_object({}) do |attribute, result|
