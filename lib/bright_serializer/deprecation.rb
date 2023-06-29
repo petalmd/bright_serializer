@@ -18,7 +18,7 @@ module BrightSerializer
     end
 
     def self.warn(klass)
-      instance.warn(DEPRECATION_MESSAGE + "Called from `#{klass}`.\n")
+      super(DEPRECATION_MESSAGE + "Called from `#{klass}`.\n")
     end
   end
 end
