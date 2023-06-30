@@ -209,7 +209,7 @@ end
 
 #### Serializing nil ([#103](https://github.com/petalmd/bright_serializer/issues/103))
 
-In version `v0.6.X` passing `nil` will raise a warning and still continue to all attributes with nil. 
+In version `v0.6.X` passing `nil` will raise a warning and still continue to return all attributes with nil. 
 
 ```ruby
 MySerializer.new(nil).to_hash # => { id: nil, name: nil }
