@@ -27,7 +27,7 @@ module BrightSerializer
     end
 
     def serialize(object, attributes_to_serialize)
-      return nil if @object.nil?
+      return nil if object.nil?
 
       attributes_to_serialize.each_with_object({}) do |attribute, result|
         next unless attribute.condition?(object, @params)
