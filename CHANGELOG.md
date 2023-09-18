@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Handle nil in array ([#113](https://github.com/petalmd/bright_serializer/pull/113))
+
 ## 0.5.1 (2024-04-05)
 
 * Better handle of ActiveSupport::Notifications defined? ([#111](https://github.com/petalmd/bright_serializer/pull/111))
