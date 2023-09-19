@@ -80,7 +80,7 @@ end
 
 ### Transform keys
 
-By default, keys or not transformed.
+By default, keys are not transformed.
 
 ```ruby
 class AccountSerializer
