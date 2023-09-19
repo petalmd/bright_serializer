@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+## 0.5.2 (2023-09-19)
+
 * Handle nil in array ([#113](https://github.com/petalmd/bright_serializer/pull/113))
 
 ## 0.5.1 (2024-04-05)
