@@ -71,6 +71,27 @@ RSpec.describe BrightSerializer::Serializer do
       it 'serialize an array of hash' do
         expect(instance.to_hash).to eq(result)
       end
+
+      context 'when an element is nil' do
+        let(:users) { [User.new, nil] }
+        let(:result) do
+          user = users.first
+          [
+            {
+              first_name: user.first_name,
+              last_name: user.last_name,
+              name: "#{user.first_name} #{user.last_name}",
+              name_to_s: "User: #{user.first_name} #{user.last_name}",
+              first: user.first_name
+            },
+            nil
+          ]
+        end
+
+        it 'serialize an array of hash' do
+          expect(instance.to_hash).to eq(result)
+        end
+      end
     end
 
     context 'when embedded serializer' do
