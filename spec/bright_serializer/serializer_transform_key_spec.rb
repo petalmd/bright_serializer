@@ -118,7 +118,7 @@ RSpec.describe BrightSerializer::Serializer do
   end
 
   describe 'not supported transformation' do
-    it 'will raise an error' do
+    it 'raises an error' do
       expect do
         Class.new do
           include BrightSerializer::Serializer
