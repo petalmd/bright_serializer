@@ -93,10 +93,19 @@ module BrightSerializer
       end
 
       def run_transform_key(input)
-        if transform_method
-          Inflector.send(@transform_method, input.to_s).to_sym
+        return input.to_sym unless transform_method
+
+        case transform_method
+        when :camel
+          input.to_s.camelize.to_sym
+        when :camel_lower
+          input.to_s.camelize(:lower).to_sym
+        when :dash
+          input.to_s.dasherize.to_sym
+        when :underscore
+          input.to_s.underscore.to_sym
         else
-          input.to_sym
+          raise ArgumentError, "Invalid transform method: #{transform_method}"
         end
       end
 
