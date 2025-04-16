@@ -24,14 +24,14 @@ jobs:
       run: bundle install
     - name: Specs with coverage
       if: ${{ matrix.ruby == 2.7 }}
-      run: bundle exec rake
+      run: "RUBYOPT='--enable=frozen-string-literal --debug=frozen-string-literal' bundle exec rake"
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         CI_PULL_REQUEST: ${{ github.event.number }}
         CI_BRANCH: ${{ github.head_ref }}
     - name: Specs
       if: ${{ matrix.ruby != 2.7 }}
-      run: bundle exec rake
+      run: "RUBYOPT='--enable=frozen-string-literal --debug=frozen-string-literal' bundle exec rake"
   Rubocop:
     runs-on: ubuntu-latest
     steps:
