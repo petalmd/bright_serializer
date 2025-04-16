@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+Warning[:deprecated] = true
+
 require 'bundler/setup'
 
 if ENV['COVERALLS_REPO_TOKEN']

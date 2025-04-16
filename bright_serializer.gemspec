@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'BrightSerializer is a minimalist implementation serializer for Ruby objects.'
   spec.homepage      = 'https://github.com/petalmd/bright_serializer'
   spec.license       = 'MIT'
-  spec.required_ruby_version = '>= 2.6'
+  spec.required_ruby_version = '>= 2.7'
 
   spec.metadata = {
     'homepage_uri' => spec.homepage,
@@ -26,6 +26,6 @@ Gem::Specification.new do |spec|
   spec.extra_rdoc_files = %w[LICENSE.txt README.md]
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'activesupport', '>= 5.2'
+  spec.add_dependency 'activesupport', '>= 7.0'
   spec.add_dependency 'oj', '~> 3.0'
 end
