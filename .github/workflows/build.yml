@@ -39,7 +39,6 @@ jobs:
       - name: Set up Ruby 2.7
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
           bundler-cache: true
       - name: Bundle install
         run: bundle install
