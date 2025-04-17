@@ -6,14 +6,16 @@ module Inflector
   # File active_support/core_ext/hash/keys.rb, line 116
   def deep_transform_keys_in_object(object, &block)
     return object.deep_transform_keys(&block) if object.is_a?(Hash)
+    return object.map { |e| deep_transform_keys_in_object(e, &block) } if object.is_a?(Array)
 
-    object.map { |e| deep_transform_keys_in_object(e, &block) }
+    object
   end
 
   # File active_support/core_ext/hash/deep_transform_values.rb, line 25
   def deep_transform_values_in_object(object, &block)
     return object.deep_transform_values(&block) if object.is_a?(Hash)
+    return object.map { |e| deep_transform_values_in_object(e, &block) } if object.is_a?(Array)
 
-    object.map { |e| deep_transform_values_in_object(e, &block) }
+    object
   end
 end
