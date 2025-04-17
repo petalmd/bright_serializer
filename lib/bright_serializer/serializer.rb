@@ -92,14 +92,6 @@ module BrightSerializer
         @transform_method = transform_name
       end
 
-      def run_transform_key(input)
-        if transform_method
-          Inflector.send(@transform_method, input.to_s).to_sym
-        else
-          input.to_sym
-        end
-      end
-
       def entity
         {}.tap do |result|
           @attributes_to_serialize.each do |attribute|
@@ -112,6 +104,24 @@ module BrightSerializer
 
       def entity_name
         name.split('::').last.downcase
+      end
+
+      private
+
+      def run_transform_key(input)
+        return input.to_sym unless transform_method
+
+        # no else since `set_key_transform` validate the transform_method
+        case transform_method
+        when :camel
+          input.to_s.camelize.to_sym
+        when :camel_lower
+          input.to_s.camelize(:lower).to_sym
+        when :dash
+          input.to_s.dasherize.to_sym
+        when :underscore
+          input.to_s.underscore.to_sym
+        end
       end
     end
 
