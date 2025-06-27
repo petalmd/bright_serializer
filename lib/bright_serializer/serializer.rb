@@ -30,7 +30,7 @@ module BrightSerializer
       return if object.nil?
 
       attributes_to_serialize.each_with_object({}) do |attribute, result|
-        next unless attribute.condition?(object, @params)
+        next unless attribute.condition?(self, object, @params)
 
         result[attribute.transformed_key] = attribute.serialize(self, object, @params)
       end
