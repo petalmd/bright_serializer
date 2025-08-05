@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata = {
     'homepage_uri' => spec.homepage,
-    'changelog_uri' => 'https://github.com/petalmd/bright_serializer/blob/master/CHANGELOG.md',
+    'changelog_uri' => 'https://github.com/petalmd/bright_serializer/releases',
     'source_code_uri' => 'https://github.com/petalmd/bright_serializer',
     'bug_tracker_uri' => 'https://github.com/petalmd/bright_serializer/issues',
     'rubygems_mfa_required' => 'true'
