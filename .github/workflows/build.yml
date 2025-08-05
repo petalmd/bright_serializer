@@ -30,7 +30,7 @@ jobs:
       - name: Specs
         if: ${{ matrix.ruby != 2.7 }}
         run: "RUBYOPT='--enable=frozen-string-literal --debug=frozen-string-literal' bundle exec rake"
-      - name: Coverage report
+      - name: Coverage report - Ruby ${{ matrix.ruby == 2.7 }}
         if: ${{ matrix.ruby == 2.7 }}
         uses: joshmfrankel/simplecov-check-action@main
         with:
