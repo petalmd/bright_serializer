@@ -3,6 +3,7 @@
 > [!NOTE]
 For newer versions see [GitHub releases](https://github.com/petalmd/bright_serializer/releases).
 
+
 ## 0.5.2 (2023-09-19)
 
 * Handle nil in array ([#113](https://github.com/petalmd/bright_serializer/pull/113))
