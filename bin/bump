@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+SEM = %w[major minor patch].freeze
+
+# raise if git not clean
+raise 'Git is not clean' unless system('git', 'diff', '--quiet')
+
+sem = ARGV[0]
+
+if sem.nil? || !SEM.include?(sem)
+  puts "Please provide a valid semver: #{SEM.join(', ')}"
+  exit 1
+end
+
+current_version_file_content = File.read('lib/solid_apm/version.rb')
+current_version_file_content =~ /VERSION = \W(\d+\.\d+\.\d+)\W/
+current_version = Regexp.last_match(1)
+
+major, minor, patch = current_version.split('.').map(&:to_i)
+
+case sem
+when 'major'
+  major += 1
+  minor = 0
+  patch = 0
+when 'minor'
+  minor += 1
+  patch = 0
+when 'patch'
+  patch += 1
+end
+
+new_version = "#{major}.#{minor}.#{patch}"
+
+version_file_path = Dir.glob('lib/*/version.rb').first
+
+raise 'Version file not found in lib/*/version.rb' if version_file_path.nil?
+
+File.write(version_file_path, current_version_file_content.gsub(current_version, new_version))
+
+puts "Bumped version from #{current_version} to #{new_version}"
+
+begin
+  system('bundle', 'install')
+
+  system('git', 'add', '.')
+  system('git', 'commit', '-m', "Bump to v#{new_version}")
+  system('git', 'tag', '-am', "v#{new_version}", "v#{new_version}")
+
+  system('git', 'push')
+  system('git', 'push', '--tags')
+rescue Exception => e
+  puts "Failed: #{e.message}"
+  exit 1
+end
