@@ -50,7 +50,7 @@ begin
 
   system('git', 'push')
   system('git', 'push', '--tags')
-rescue Exception => e
+rescue StandardError => e
   puts "Failed: #{e.message}"
   exit 1
 end

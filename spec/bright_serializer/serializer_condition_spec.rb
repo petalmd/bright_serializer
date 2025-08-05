@@ -7,6 +7,7 @@ RSpec.describe BrightSerializer::Serializer do
     let(:serializer_class) do
       Class.new do
         include BrightSerializer::Serializer
+
         attributes :first_name, :last_name
         attribute :name, if: proc { false } do |object|
           "#{object.first_name} #{object.last_name}"
@@ -32,6 +33,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:serializer_class) do
         Class.new do
           include BrightSerializer::Serializer
+
           attributes :first_name, :last_name
           attribute :name, if: proc { |_object, params| params != 0 } do |object|
             "#{object.first_name} #{object.last_name}"
@@ -49,6 +51,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:serializer_class) do
         Class.new do
           include BrightSerializer::Serializer
+
           attributes :first_name, :last_name
           attribute :name, if: proc { |_object| add_name? } do |object|
             "#{object.first_name} #{object.last_name}"

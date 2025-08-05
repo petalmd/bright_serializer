@@ -7,6 +7,7 @@ RSpec.describe BrightSerializer::Serializer do
     let(:serializer_class) do
       Class.new do
         include BrightSerializer::Serializer
+
         attribute :name, entity: { type: :string }
       end
     end
@@ -19,6 +20,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:serializer_class) do
         Class.new do
           include BrightSerializer::Serializer
+
           attribute :name, entity: { type: :string }
           attribute :id
         end
@@ -33,6 +35,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:serializer_class) do
         Class.new do
           include BrightSerializer::Serializer
+
           attribute :name, entity: { type: :string, enum: %w[a b c].freeze }
         end
       end
@@ -46,6 +49,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:serializer_class) do
         Class.new do
           include BrightSerializer::Serializer
+
           attribute :name, entity: { type: :string, my_param: 'abc' }
         end
       end
