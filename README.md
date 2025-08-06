@@ -223,10 +223,14 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## New release
 
+Commit all changes in git before bumping the version.
+Bump version with:
+
 ```shell
 bin/bump major|minor|patch
-# GitHub Actions will take care of the rest
 ```
+
+GitHub Actions will take care of the rest
 
 ## Contributing
 
