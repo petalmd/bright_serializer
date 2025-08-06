@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bright_serializer (0.5.2)
+    bright_serializer (0.6.0)
       activesupport (>= 7.0)
       oj (~> 3.0)
 
