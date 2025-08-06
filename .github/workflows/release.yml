@@ -7,7 +7,7 @@ on:
 jobs:
   github_release:
     name: GitHub release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   rubygems_publish:
     name: Push gem to RubyGems.org
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
       contents: write # IMPORTANT: this permission is required for `rake release` to push the release tag
