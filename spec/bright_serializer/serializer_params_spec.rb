@@ -9,6 +9,7 @@ RSpec.describe BrightSerializer::Serializer do
     let(:serializer_class) do
       Class.new do
         include BrightSerializer::Serializer
+
         attributes :first_name, :last_name
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"

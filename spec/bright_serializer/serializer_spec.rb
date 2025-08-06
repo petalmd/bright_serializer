@@ -8,6 +8,7 @@ RSpec.describe BrightSerializer::Serializer do
     let(:serializer_class) do
       Class.new do
         include BrightSerializer::Serializer
+
         attributes :first_name, :last_name
         attribute :name do |object|
           "#{object.first_name} #{object.last_name}"
@@ -98,6 +99,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:serializer_class) do
         small_serializer = Class.new do
           include BrightSerializer::Serializer
+
           attributes :names do |object|
             [object.first_name, object.last_name]
           end
@@ -105,6 +107,7 @@ RSpec.describe BrightSerializer::Serializer do
 
         Class.new do
           include BrightSerializer::Serializer
+
           attributes :first_name, :last_name
           attribute :name do |object|
             small_serializer.new(object)
@@ -126,6 +129,7 @@ RSpec.describe BrightSerializer::Serializer do
         let(:serializer_class) do
           Class.new do
             include BrightSerializer::Serializer
+
             attributes :first_name, :last_name
           end
         end
@@ -153,6 +157,7 @@ RSpec.describe BrightSerializer::Serializer do
         let(:serializer_class) do
           Class.new do
             include BrightSerializer::Serializer
+
             attributes :first_name, :last_name
           end
         end
@@ -177,6 +182,7 @@ RSpec.describe BrightSerializer::Serializer do
     let(:parent_class) do
       Class.new do
         include BrightSerializer::Serializer
+
         attributes :first_name
       end
     end
@@ -213,6 +219,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:parent_class) do
         Class.new do
           include BrightSerializer::Serializer
+
           set_key_transform :camel_lower
           attributes :first_name
         end
@@ -237,6 +244,7 @@ RSpec.describe BrightSerializer::Serializer do
     let(:serializer_class) do
       Class.new do
         include BrightSerializer::Serializer
+
         attributes :first_name, :last_name
         has_many :friends, serializer: 'FriendSerializer'
       end
@@ -264,6 +272,7 @@ RSpec.describe BrightSerializer::Serializer do
       # FriendSerializer
       Class.new do
         include BrightSerializer::Serializer
+
         attributes :first_name, :last_name
       end
     end
@@ -311,6 +320,7 @@ RSpec.describe BrightSerializer::Serializer do
         let(:serializer_class) do
           Class.new do
             include BrightSerializer::Serializer
+
             attributes :first_name, :last_name
             belongs_to :best_friend, serializer: 'FriendSerializer' do |object|
               object.friends.first
@@ -327,6 +337,7 @@ RSpec.describe BrightSerializer::Serializer do
         let(:serializer_class) do
           Class.new do
             include BrightSerializer::Serializer
+
             attributes :first_name, :last_name
             has_one :best_friend, serializer: 'FriendSerializer' do |object|
               object.friends.first
@@ -345,6 +356,7 @@ RSpec.describe BrightSerializer::Serializer do
         let(:serializer_class) do
           Class.new do
             include BrightSerializer::Serializer
+
             attributes :first_name, :last_name
             has_many :friends, serializer: 'FriendSerializer', if: ->(_object, _params) { true }
           end
@@ -359,6 +371,7 @@ RSpec.describe BrightSerializer::Serializer do
         let(:serializer_class) do
           Class.new do
             include BrightSerializer::Serializer
+
             attributes :first_name, :last_name
             has_many :friends, serializer: 'FriendSerializer', if: ->(_object, _params) { false }
           end
@@ -381,6 +394,7 @@ RSpec.describe BrightSerializer::Serializer do
       let(:serializer_class) do
         Class.new do
           include BrightSerializer::Serializer
+
           attributes :first_name, :last_name
           has_many :friends, serializer: 'FriendSerializer', fields: [:first_name]
         end
@@ -417,6 +431,7 @@ RSpec.describe BrightSerializer::Serializer do
         # FriendSerializer
         Class.new do
           include BrightSerializer::Serializer
+
           attributes :first_name
           attribute :last_name do |object, params|
             "#{params[:prefix]} #{object.last_name}"
@@ -434,6 +449,7 @@ RSpec.describe BrightSerializer::Serializer do
         let(:serializer_class) do
           Class.new do
             include BrightSerializer::Serializer
+
             attributes :first_name, :last_name
             has_many :friends, serializer: 'FriendSerializer', params: { prefix: 'Mr' }
           end

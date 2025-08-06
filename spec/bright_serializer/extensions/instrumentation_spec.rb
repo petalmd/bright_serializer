@@ -14,6 +14,7 @@ RSpec.describe BrightSerializer::Extensions::Instrumentation do
   let(:serializer_class) do
     Class.new do
       include BrightSerializer::Serializer
+
       attributes :id, :name
 
       def self.name
