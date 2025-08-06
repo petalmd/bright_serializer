@@ -32,7 +32,7 @@ jobs:
         run: "RUBYOPT='--enable=frozen-string-literal --debug=frozen-string-literal' bundle exec rake"
       - name: Coverage report
         if: ${{ matrix.ruby == 2.7 }}
-        uses: joshmfrankel/simplecov-check-action@0743d75
+        uses: joshmfrankel/simplecov-check-action@0743d75f9c88262f651e1ec402bbd3d586f6e7ac
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
