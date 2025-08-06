@@ -22,10 +22,10 @@ module BrightSerializer
       value.respond_to?(:serializable_hash) ? value.serializable_hash : value
     end
 
-    def condition?(object, params)
+    def condition?(serializer_instance, object, params)
       return true unless @condition
 
-      @condition.call(object, params)
+      serializer_instance.instance_exec(object, params, &@condition)
     end
 
     private

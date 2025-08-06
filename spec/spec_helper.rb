@@ -4,11 +4,8 @@ Warning[:deprecated] = true
 
 require 'bundler/setup'
 
-if ENV['COVERALLS_REPO_TOKEN']
+if ENV['COVERAGE'] == 'true'
   require 'simplecov'
-  require 'coveralls'
-
-  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
   SimpleCov.start do
     add_filter 'spec'
     enable_coverage :branch
