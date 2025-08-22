@@ -15,7 +15,7 @@ RSpec.describe BrightSerializer::Serializer do
           "#{object.first_name} #{object.last_name}"
         end
         attribute :params do |object, params|
-          "#{object.first_name} #{object.last_name} #{params}"
+          "#{object.first_name} #{object.last_name} #{params[:suffix]}"
         end
 
         attribute :params_upcase do |object, params|
@@ -23,12 +23,12 @@ RSpec.describe BrightSerializer::Serializer do
         end
 
         def upcase(object, params)
-          "#{object.first_name} #{object.last_name} #{params}".upcase
+          "#{object.first_name} #{object.last_name} #{params[:suffix]}".upcase
         end
       end
     end
 
-    let(:instance) { serializer_class.new(user, params: param) }
+    let(:instance) { serializer_class.new(user, params: { suffix: param }) }
 
     let(:param) { Faker::Lorem.word }
     let(:result) do
@@ -43,6 +43,22 @@ RSpec.describe BrightSerializer::Serializer do
 
     it 'serialize params' do
       expect(instance.to_hash).to eq(result)
+    end
+
+    context 'when not passing params' do
+      # The anonymous serializer use params in a way that it take for granted that params is always a hash
+      # and call params[:suffix], so if params is nil it will raise an error
+      # This test ensure that when params is not passed it will be an empty hash and no error is raised.
+      it 'passes an empty hash' do
+        instance = serializer_class.new(user)
+        expect(instance.to_hash).to eq(
+          first_name: user.first_name,
+          last_name: user.last_name,
+          name: "#{user.first_name} #{user.last_name}",
+          params: "#{user.first_name} #{user.last_name} ",
+          params_upcase: "#{user.first_name} #{user.last_name} ".upcase
+        )
+      end
     end
   end
 end

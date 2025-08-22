@@ -22,7 +22,7 @@ module BrightSerializer
 
     def initialize(object, **options)
       @object = object
-      @params = options.delete(:params)
+      @params = options.delete(:params) || {}
       @fields = options.delete(:fields)
     end
 
